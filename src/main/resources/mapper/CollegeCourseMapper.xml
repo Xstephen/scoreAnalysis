@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sse.scoreAnalysis.dao.CollegeCourseMapper">
+  <resultMap id="BaseResultMap" type="com.sse.scoreAnalysis.model.CollegeCourse">
+    <id column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+    <id column="majorId" jdbcType="VARCHAR" property="majorid" />
+    <id column="courseId" jdbcType="VARCHAR" property="courseid" />
+    <id column="term" jdbcType="INTEGER" property="term" />
+    <id column="year" jdbcType="VARCHAR" property="year" />
+    <result column="maxScore" jdbcType="INTEGER" property="maxscore" />
+    <result column="minScore" jdbcType="INTEGER" property="minscore" />
+    <result column="mean" jdbcType="INTEGER" property="mean" />
+    <result column="median" jdbcType="INTEGER" property="median" />
+    <result column="studentNum" jdbcType="INTEGER" property="studentnum" />
+    <result column="failureNum" jdbcType="INTEGER" property="failurenum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    collegeId, majorId, courseId, term, year, maxScore, minScore, mean, median, studentNum, 
+    failureNum
+  </sql>
+  <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.CollegeCourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from college_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.CollegeCourseKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from college_course
+    where collegeId = #{collegeid,jdbcType=VARCHAR}
+      and majorId = #{majorid,jdbcType=VARCHAR}
+      and courseId = #{courseid,jdbcType=VARCHAR}
+      and term = #{term,jdbcType=INTEGER}
+      and year = #{year,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.CollegeCourseKey">
+    delete from college_course
+    where collegeId = #{collegeid,jdbcType=VARCHAR}
+      and majorId = #{majorid,jdbcType=VARCHAR}
+      and courseId = #{courseid,jdbcType=VARCHAR}
+      and term = #{term,jdbcType=INTEGER}
+      and year = #{year,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sse.scoreAnalysis.model.CollegeCourseExample">
+    delete from college_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sse.scoreAnalysis.model.CollegeCourse">
+    insert into college_course (collegeId, majorId, courseId, 
+      term, year, maxScore, 
+      minScore, mean, median, 
+      studentNum, failureNum)
+    values (#{collegeid,jdbcType=VARCHAR}, #{majorid,jdbcType=VARCHAR}, #{courseid,jdbcType=VARCHAR}, 
+      #{term,jdbcType=INTEGER}, #{year,jdbcType=VARCHAR}, #{maxscore,jdbcType=INTEGER}, 
+      #{minscore,jdbcType=INTEGER}, #{mean,jdbcType=INTEGER}, #{median,jdbcType=INTEGER}, 
+      #{studentnum,jdbcType=INTEGER}, #{failurenum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sse.scoreAnalysis.model.CollegeCourse">
+    insert into college_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collegeid != null">
+        collegeId,
+      </if>
+      <if test="majorid != null">
+        majorId,
+      </if>
+      <if test="courseid != null">
+        courseId,
+      </if>
+      <if test="term != null">
+        term,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="maxscore != null">
+        maxScore,
+      </if>
+      <if test="minscore != null">
+        minScore,
+      </if>
+      <if test="mean != null">
+        mean,
+      </if>
+      <if test="median != null">
+        median,
+      </if>
+      <if test="studentnum != null">
+        studentNum,
+      </if>
+      <if test="failurenum != null">
+        failureNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collegeid != null">
+        #{collegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorid != null">
+        #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null">
+        #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null">
+        #{term,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="maxscore != null">
+        #{maxscore,jdbcType=INTEGER},
+      </if>
+      <if test="minscore != null">
+        #{minscore,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="median != null">
+        #{median,jdbcType=INTEGER},
+      </if>
+      <if test="studentnum != null">
+        #{studentnum,jdbcType=INTEGER},
+      </if>
+      <if test="failurenum != null">
+        #{failurenum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sse.scoreAnalysis.model.CollegeCourseExample" resultType="java.lang.Long">
+    select count(*) from college_course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update college_course
+    <set>
+      <if test="record.collegeid != null">
+        collegeId = #{record.collegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorid != null">
+        majorId = #{record.majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseid != null">
+        courseId = #{record.courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.term != null">
+        term = #{record.term,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxscore != null">
+        maxScore = #{record.maxscore,jdbcType=INTEGER},
+      </if>
+      <if test="record.minscore != null">
+        minScore = #{record.minscore,jdbcType=INTEGER},
+      </if>
+      <if test="record.mean != null">
+        mean = #{record.mean,jdbcType=INTEGER},
+      </if>
+      <if test="record.median != null">
+        median = #{record.median,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentnum != null">
+        studentNum = #{record.studentnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.failurenum != null">
+        failureNum = #{record.failurenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update college_course
+    set collegeId = #{record.collegeid,jdbcType=VARCHAR},
+      majorId = #{record.majorid,jdbcType=VARCHAR},
+      courseId = #{record.courseid,jdbcType=VARCHAR},
+      term = #{record.term,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=VARCHAR},
+      maxScore = #{record.maxscore,jdbcType=INTEGER},
+      minScore = #{record.minscore,jdbcType=INTEGER},
+      mean = #{record.mean,jdbcType=INTEGER},
+      median = #{record.median,jdbcType=INTEGER},
+      studentNum = #{record.studentnum,jdbcType=INTEGER},
+      failureNum = #{record.failurenum,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sse.scoreAnalysis.model.CollegeCourse">
+    update college_course
+    <set>
+      <if test="maxscore != null">
+        maxScore = #{maxscore,jdbcType=INTEGER},
+      </if>
+      <if test="minscore != null">
+        minScore = #{minscore,jdbcType=INTEGER},
+      </if>
+      <if test="mean != null">
+        mean = #{mean,jdbcType=INTEGER},
+      </if>
+      <if test="median != null">
+        median = #{median,jdbcType=INTEGER},
+      </if>
+      <if test="studentnum != null">
+        studentNum = #{studentnum,jdbcType=INTEGER},
+      </if>
+      <if test="failurenum != null">
+        failureNum = #{failurenum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where collegeId = #{collegeid,jdbcType=VARCHAR}
+      and majorId = #{majorid,jdbcType=VARCHAR}
+      and courseId = #{courseid,jdbcType=VARCHAR}
+      and term = #{term,jdbcType=INTEGER}
+      and year = #{year,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.CollegeCourse">
+    update college_course
+    set maxScore = #{maxscore,jdbcType=INTEGER},
+      minScore = #{minscore,jdbcType=INTEGER},
+      mean = #{mean,jdbcType=INTEGER},
+      median = #{median,jdbcType=INTEGER},
+      studentNum = #{studentnum,jdbcType=INTEGER},
+      failureNum = #{failurenum,jdbcType=INTEGER}
+    where collegeId = #{collegeid,jdbcType=VARCHAR}
+      and majorId = #{majorid,jdbcType=VARCHAR}
+      and courseId = #{courseid,jdbcType=VARCHAR}
+      and term = #{term,jdbcType=INTEGER}
+      and year = #{year,jdbcType=VARCHAR}
+  </update>
+</mapper>

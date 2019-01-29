@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sse.scoreAnalysis.dao.CounselorMapper">
+  <resultMap id="BaseResultMap" type="com.sse.scoreAnalysis.model.Counselor">
+    <id column="counselorId" jdbcType="VARCHAR" property="counselorid" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="counselorName" jdbcType="VARCHAR" property="counselorname" />
+    <result column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+    <result column="majorId" jdbcType="VARCHAR" property="majorid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    counselorId, password, counselorName, collegeId, majorId
+  </sql>
+  <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.CounselorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from counselor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from counselor
+    where counselorId = #{counselorid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from counselor
+    where counselorId = #{counselorid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sse.scoreAnalysis.model.CounselorExample">
+    delete from counselor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sse.scoreAnalysis.model.Counselor">
+    insert into counselor (counselorId, password, counselorName, 
+      collegeId, majorId)
+    values (#{counselorid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{counselorname,jdbcType=VARCHAR}, 
+      #{collegeid,jdbcType=VARCHAR}, #{majorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sse.scoreAnalysis.model.Counselor">
+    insert into counselor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="counselorid != null">
+        counselorId,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="counselorname != null">
+        counselorName,
+      </if>
+      <if test="collegeid != null">
+        collegeId,
+      </if>
+      <if test="majorid != null">
+        majorId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="counselorid != null">
+        #{counselorid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="counselorname != null">
+        #{counselorname,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeid != null">
+        #{collegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorid != null">
+        #{majorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sse.scoreAnalysis.model.CounselorExample" resultType="java.lang.Long">
+    select count(*) from counselor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update counselor
+    <set>
+      <if test="record.counselorid != null">
+        counselorId = #{record.counselorid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.counselorname != null">
+        counselorName = #{record.counselorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeid != null">
+        collegeId = #{record.collegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorid != null">
+        majorId = #{record.majorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update counselor
+    set counselorId = #{record.counselorid,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      counselorName = #{record.counselorname,jdbcType=VARCHAR},
+      collegeId = #{record.collegeid,jdbcType=VARCHAR},
+      majorId = #{record.majorid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sse.scoreAnalysis.model.Counselor">
+    update counselor
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="counselorname != null">
+        counselorName = #{counselorname,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeid != null">
+        collegeId = #{collegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorid != null">
+        majorId = #{majorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where counselorId = #{counselorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.Counselor">
+    update counselor
+    set password = #{password,jdbcType=VARCHAR},
+      counselorName = #{counselorname,jdbcType=VARCHAR},
+      collegeId = #{collegeid,jdbcType=VARCHAR},
+      majorId = #{majorid,jdbcType=VARCHAR}
+    where counselorId = #{counselorid,jdbcType=VARCHAR}
+  </update>
+</mapper>
