@@ -21,6 +21,10 @@ public interface StudentCourseMapper {
 
     StudentCourse selectByPrimaryKey(StudentCourseKey key);
 
+    List<StudentCourse> selectByExampleWithCourse(StudentCourseExample example);
+
+    StudentCourse selectByPrimaryKeyWithCourse(StudentCourseKey key);
+
     int updateByExampleSelective(@Param("record") StudentCourse record, @Param("example") StudentCourseExample example);
 
     int updateByExample(@Param("record") StudentCourse record, @Param("example") StudentCourseExample example);

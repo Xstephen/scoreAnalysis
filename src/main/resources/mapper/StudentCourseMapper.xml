@@ -13,6 +13,26 @@
     <result column="flag" jdbcType="INTEGER" property="flag" />
     <result column="great" jdbcType="INTEGER" property="great" />
   </resultMap>
+  <resultMap id="WithCourseMap" type="com.sse.scoreAnalysis.model.StudentCourse">
+    <id column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+    <id column="majorId" jdbcType="VARCHAR" property="majorid" />
+    <id column="courseId" jdbcType="VARCHAR" property="courseid" />
+    <id column="year" jdbcType="VARCHAR" property="year" />
+    <id column="term" jdbcType="INTEGER" property="term" />
+    <id column="studentId" jdbcType="VARCHAR" property="studentid" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="studentRank" jdbcType="INTEGER" property="studentrank" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
+    <result column="great" jdbcType="INTEGER" property="great" />
+    <association property="course" javaType="com.sse.scoreAnalysis.model.Course">
+      <!--c.courseId,c.courseName,c.courseType,c.credit,c.classHour-->
+      <id column="courseId" property="courseid"/>
+      <result column="courseName" property="coursename"/>
+      <result column="courseType" property="coursetype"/>
+      <result column="credit" property="credit"/>
+      <result column="courseHour" property="coursehour"/>
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -74,6 +94,27 @@
   <sql id="Base_Column_List">
     collegeId, majorId, courseId, year, term, studentId, score, studentRank, flag, great
   </sql>
+  <sql id="Column_List_With_Course">
+    sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,
+    c.courseId,c.courseName,c.courseType,c.credit,c.classHour
+  </sql>
+  <!--List<StudentCourse> selectByExampleWithCourse(StudentCourseExample example);-->
+  <!--StudentCourse selectByPrimaryKeWithCourse(StudentCourseKey key);-->
+  <select id="selectByExampleWithCourse" parameterType="com.sse.scoreAnalysis.model.StudentCourseExample" resultMap="WithCourseMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Column_List_With_Course" />
+    from student_course sc
+    left join course c on sc.`courseId`= c.`courseId`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -87,6 +128,18 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectByPrimaryKeyWithCourse" parameterType="com.sse.scoreAnalysis.model.StudentCourseKey" resultMap="WithCourseMap">
+    select
+    <include refid="Column_List_With_Course" />
+    from student_course sc
+    left join course c on sc.courseId= c.courseId
+    where collegeId = #{collegeid,jdbcType=VARCHAR}
+    and majorId = #{majorid,jdbcType=VARCHAR}
+    and courseId = #{courseid,jdbcType=VARCHAR}
+    and year = #{year,jdbcType=VARCHAR}
+    and term = #{term,jdbcType=INTEGER}
+    and studentId = #{studentid,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.StudentCourseKey" resultMap="BaseResultMap">
     select 

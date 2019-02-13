@@ -8,6 +8,8 @@ public class StudentCourse extends StudentCourseKey {
     private Integer flag;
 
     private Integer great;
+    //查询学生某个课程成绩时将课程信息也查询出来
+    private Course course;
 
     public Integer getScore() {
         return score;
@@ -39,5 +41,13 @@ public class StudentCourse extends StudentCourseKey {
 
     public void setGreat(Integer great) {
         this.great = great;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

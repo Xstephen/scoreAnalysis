@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <title>成绩分析系统</title>
     <link rel="shortcut icon" href="static/images/favicon.ico"/>
-    <link rel="stylesheet" href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css">
+    <link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="static/vendor/bootstrapValidator/css/bootstrapValidator.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                     <div class="form-label-group form-inline">
                         <input class="form-control required" placeholder="验证码"
                                id="verifyCode"
-                               name="verifyCode" maxlength="4" autocomplete="current-verifyCode"/>
+                               name="verifyCode" maxlength="4"/>
                         <label class="col-4" for="verifyCode">验证码</label>
                         <img class="col-5" src="${pageContext.request.contextPath}/getVerifyCode" id="verifyImg"
                              onclick="javascript:changeImage();" style="height:calc(2.25rem + 2px)"/>
@@ -85,9 +85,11 @@
         var pathName = window.document.location.pathname;
         var pos = curWwwPath.indexOf(pathName);
         //获取主机地址，如： http://localhost:8083
-        var localhostPaht = curWwwPath.substring(0, pos);
+        var localhostPath = curWwwPath.substring(0, pos);
         //获取带"/"的项目名，如：/uimcardprj
         var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+
+        var loginUrl = localhostPath + projectName + '/checkLogin';
 
         var serviceInfo = '${info}';
         if (serviceInfo != "") {
@@ -106,7 +108,6 @@
                 rtl: false
             });
         }
-        var loginUrl = localhostPaht + projectName + '/checkLogin';
         $('#loginForm').bootstrapValidator({
             feedbackIcons: {
                 valid: 'glyphicon glyphicon-ok',
@@ -154,7 +155,7 @@
                 data: form.serialize(),
                 success: function (data) {
                     if (data.success) {
-                        window.location.href = localhostPaht + projectName + '/main';
+                        window.location.href = localhostPath + projectName + '/main';
                     } else {
                         //$("#errorMsg").text(data.msg);
                         $('#subbtn').attr("disabled",false);
