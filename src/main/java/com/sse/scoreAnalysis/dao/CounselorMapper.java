@@ -20,6 +20,11 @@ public interface CounselorMapper {
 
     Counselor selectByPrimaryKey(String counselorid);
 
+    //查询辅导员信息时同时查询所在学院的信息
+    List<Counselor> selectByExampleWithCollege(CounselorExample example);
+
+    Counselor selectByPrimaryKeyWithCollege(String counselorid);
+
     int updateByExampleSelective(@Param("record") Counselor record, @Param("example") CounselorExample example);
 
     int updateByExample(@Param("record") Counselor record, @Param("example") CounselorExample example);

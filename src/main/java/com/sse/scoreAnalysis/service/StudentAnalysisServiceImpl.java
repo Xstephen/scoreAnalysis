@@ -19,4 +19,24 @@ public class StudentAnalysisServiceImpl implements StudentAnalysisService {
         criteria.andStudentidEqualTo(studentId);
         return studentAnalysisMapper.selectByExample(studentAnalysisExample);
     }
+
+    @Override
+    public List<StudentAnalysis> getTermStudentAnalysisInStudentIdList(List<String> studentIdList,String year,String term) {
+        StudentAnalysisExample studentAnalysisExample=new StudentAnalysisExample();
+        StudentAnalysisExample.Criteria criteria=studentAnalysisExample.createCriteria();
+        criteria.andStudentidIn(studentIdList);
+        criteria.andYearEqualTo(year);
+        criteria.andTermEqualTo(Integer.valueOf(term));
+        return studentAnalysisMapper.selectByExampleWithStudentInfo(studentAnalysisExample);
+    }
+
+    @Override
+    public List<StudentAnalysis> getYearStudentAnalysisInStudentIdList(List<String> studentIdList, String year) {
+        StudentAnalysisExample studentAnalysisExample=new StudentAnalysisExample();
+        StudentAnalysisExample.Criteria criteria=studentAnalysisExample.createCriteria();
+        criteria.andStudentidIn(studentIdList);
+        criteria.andYearEqualTo(year);
+        criteria.andTermEqualTo(0);
+        return studentAnalysisMapper.selectByExampleWithStudentInfo(studentAnalysisExample);
+    }
 }

@@ -127,7 +127,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-3 mb-4">
+                                    <div class="col-lg-6 mb-4">
                                         <div class="card border-0 bg-primary text-white shadow">
                                             <div class="card-body">
                                                 姓名:${sessionScope.student.studentname}<br>
@@ -136,7 +136,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 mb-4">
+                                    <div class="col-lg-6 mb-4">
                                         <div class="card border-0 bg-primary text-white shadow">
                                             <div class="card-body">
                                                 加权成绩(截至当前学期):${sessionScope.student.weightscore}<br>
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 mb-4">
+                                    <div class="col-lg-12 mb-4">
                                         <div class="card border-0 shadow">
                                             <div class="card-body">
                                                 您的成绩排名(截至当前学期):${sessionScope.student.studentrank}&emsp;年级总人数:${sessionScope.studentInfo.studentCountG}<br>
@@ -190,7 +190,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">确定要注销吗？</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -220,6 +220,23 @@
 <script src="static/vendor/echarts/theme/walden.js"></script>
 <script>
     $(document).ready(function (e) {
+        var serviceInfo = '${info}';
+        if (serviceInfo != "") {
+            $.Toast("提示", serviceInfo, "warning", {
+                stack: true,
+                has_icon: true,
+                has_close_btn: false,
+                fullscreen: false,
+                width: 400,
+                spacing: 20,
+                timeout: 3000,
+                border_radius: 8,
+                sticky: false,
+                position_class: "toast-top-right",
+                has_progress: false,
+                rtl: false
+            });
+        }
         //同年级学生数
         var studentNumInG =
             ${sessionScope.studentInfo.studentCountG};

@@ -11,6 +11,8 @@ public class Counselor {
 
     private String majorid;
 
+    private College college;
+
     public String getCounselorid() {
         return counselorid;
     }
@@ -49,5 +51,13 @@ public class Counselor {
 
     public void setMajorid(String majorid) {
         this.majorid = majorid == null ? null : majorid.trim();
+    }
+
+    public College getCollege() {
+        return college;
+    }
+
+    public void setCollege(College college) {
+        this.college = college;
     }
 }

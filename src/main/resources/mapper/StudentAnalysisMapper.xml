@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sse.scoreAnalysis.dao.StudentAnalysisMapper">
+  <!--二级缓存-->
+  <cache eviction="LRU" flushInterval="100000" size="1024" readOnly="true"/>
   <resultMap id="BaseResultMap" type="com.sse.scoreAnalysis.model.StudentAnalysis">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="VARCHAR" property="year" />
@@ -11,6 +13,21 @@
     <result column="scoreChange" jdbcType="INTEGER" property="scorechange" />
     <result column="studentId" jdbcType="VARCHAR" property="studentid" />
   </resultMap>
+  <resultMap id="ResultMapWithStudentInfo" type="com.sse.scoreAnalysis.model.StudentAnalysis">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="term" jdbcType="INTEGER" property="term" />
+    <result column="weightScore" jdbcType="DOUBLE" property="weightscore" />
+    <result column="studentRank" jdbcType="INTEGER" property="studentrank" />
+    <result column="failureNum" jdbcType="INTEGER" property="failurenum" />
+    <result column="scoreChange" jdbcType="INTEGER" property="scorechange" />
+    <result column="studentId" jdbcType="VARCHAR" property="studentid" />
+    <association property="student" javaType="com.sse.scoreAnalysis.model.Student">
+      <id column="studentId" jdbcType="VARCHAR" property="studentid" />
+      <result column="studentName" jdbcType="VARCHAR" property="studentname" />
+    </association>
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -29,6 +46,35 @@
                 </when>
                 <when test="criterion.listValue">
                   and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Example_Where_Clause_StudentAnalysis">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and sa.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and sa.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and sa.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and sa.${criterion.condition}
                   <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
@@ -72,7 +118,28 @@
   <sql id="Base_Column_List">
     id, year, term, weightScore, studentRank, failureNum, scoreChange, studentId
   </sql>
-  <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentAnalysisExample" resultMap="BaseResultMap">
+  <sql id="Column_List_With_Student">
+     sa.id,sa.year,sa.term,sa.weightScore,sa.studentRank,sa.failureNum,sa.scoreChange,sa.studentId,s.studentId,s.studentName
+  </sql>
+  <!--List<StudentAnalysis> selectByExampleWithStudentInfo(StudentAnalysisExample example);-->
+
+  <!--StudentAnalysis selectByPrimaryKeyWithStudentInfo(Integer id);-->
+  <select id="selectByExampleWithStudentInfo" parameterType="com.sse.scoreAnalysis.model.StudentAnalysisExample" resultMap="ResultMapWithStudentInfo" useCache="true">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Column_List_With_Student" />
+    from studentanalysis sa
+    left join student s on sa.studentId=s.studentId
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause_StudentAnalysis" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentAnalysisExample" resultMap="BaseResultMap" useCache="true">
     select
     <if test="distinct">
       distinct
@@ -86,7 +153,14 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKeyWithStudentInfo" parameterType="java.lang.Integer" resultMap="ResultMapWithStudentInfo" useCache="true">
+    select
+    <include refid="Column_List_With_Student" />
+    from studentanalysis sa
+    left join student s on sa.studentId=s.studentId
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap" useCache="true">
     select 
     <include refid="Base_Column_List" />
     from studentanalysis

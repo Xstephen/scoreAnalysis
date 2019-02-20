@@ -19,9 +19,10 @@
     <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
-    <link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <%--<link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">--%>
     <!-- Custom styles for this template-->
     <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="static/vendor/DataTables/datatables.min.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -29,7 +30,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=path%>/">
             <div style="font-size:2rem;">
                 <i class="fas fa-chart-line"></i>
             </div>
@@ -85,7 +86,6 @@
 
                     </div>
                 </form>
-
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav mr-auto ml-md-auto">
 
@@ -129,12 +129,11 @@
                                 <div class="row">
                                     <div class="col-lg-12 mb-4">
                                         <div class="card border-0 shadow">
-                                            <div class="card-body">
+                                            <div class="card-header border-0 py-3">
                                                 <div class="row  form-inline">
                                                     <label>
-                                                        <h5 class="card-text">
-                                                            各学期成绩总览&emsp;年级总人数:${sessionScope.studentInfo.studentCountG}&emsp;
-                                                        </h5>
+                                                        <h6 class="m-0 font-weight-bold">
+                                                            各学期成绩总览&emsp;年级总人数:${sessionScope.studentInfo.studentCountG}&emsp;</h6>
                                                     </label>
                                                     <div>
                                                         <select class="custom-select" id="selectScale">
@@ -143,6 +142,9 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="card-body">
+
                                                 <div class="row">
                                                     <div id="termChart" class="col-lg-6" style="height:300px;"></div>
                                                     <div id="rankChart" class="col-lg-6" style="height:300px;"></div>
@@ -154,26 +156,76 @@
                                 <div class="row">
                                     <div class="col-lg-12 mb-4">
                                         <div class="card border-0 shadow">
-                                            <div class="card-body">
+                                            <div class="card-header  border-0 py-3">
                                                 <div class="row  form-inline">
                                                     <label>
-                                                        <h5 class="card-text">
-                                                            各课程成绩总览
-                                                        </h5>
-                                                    </label>
-
-                                                </div>
-                                                <div class="row form-inline">
-                                                    <label>
-                                                        <h6 class="card-text">
-                                                            &emsp;&emsp;&emsp;&emsp;点击或鼠标滚轮滑动缩放图表。(绿色表示成绩优异，蓝色表示成绩普通，红色表示成绩较差，需要注意!)
+                                                        <h6 class="m-0 font-weight-bold">
+                                                            各课程成绩总览&emsp;
                                                         </h6>
                                                     </label>
-                                                    <i class="far fa-question-circle" data-toggle="tooltip"
-                                                       data-placement="right" title="每课成绩将与同课程学生成绩对比，如果高于所有学生成绩的上四分位数，则成绩显示为绿色，即优异，如果低于下四分位数，则成绩显示为红色，需要注意！"></i>
                                                 </div>
-                                                <div class="row">
-                                                    <div id="courseChart" class="col-lg-12" style="height:600px;"></div>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="nav nav-tabs" id="studentCourseTab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="pic-tab" data-toggle="tab"
+                                                           href="#pic-div" role="tab" aria-controls="pic-div"
+                                                           aria-selected="true">统计图</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="table-tab" data-toggle="tab"
+                                                           href="#table-div" role="tab" aria-controls="table-div"
+                                                           aria-selected="false">表格</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content" id="tabContent">
+                                                    <div class="tab-pane fade show active" id="pic-div" role="tabpanel"
+                                                         aria-labelledby="pic-tab">
+                                                        <%--<div class="row">--%>
+                                                        <div class="form-inline">
+                                                            <label>&emsp;选择学期：
+                                                                <select class="custom-select" id="termSelect">
+                                                                    <option selected></option>
+                                                                </select>
+                                                            </label>
+                                                        </div>
+                                                        <%--</div>--%>
+                                                        <%--<div class="row form-inline">--%>
+                                                        <label>
+                                                            <h6 class="card-text">
+                                                                &emsp;点击或鼠标滚轮滑动缩放图表。(绿色表示成绩优异，蓝色表示成绩普通，红色表示成绩较差，需要注意!)
+                                                            </h6>
+                                                        </label>
+                                                        <i class="far fa-question-circle" data-toggle="tooltip"
+                                                           data-placement="right"
+                                                           title="每课成绩将与同课程学生成绩对比，如果高于所有学生成绩的上四分位数，则成绩显示为绿色，即优异，如果低于下四分位数或未及格，则成绩显示为红色，需要注意！"></i>
+                                                        <%--</div>--%>
+                                                        <%--<div class="row">--%>
+                                                        <div id="courseChart" class="col-lg-12"
+                                                             style="height:600px;"></div>
+                                                        <%--</div>--%>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="table-div" role="tabpanel"
+                                                         aria-labelledby="table-tab">
+                                                        <div class="table-responsive">
+                                                            <table id="studentCourseTable" class="table display"
+                                                                   width="100%" cellpadding="0">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">课程名</th>
+                                                                    <th scope="col">学年</th>
+                                                                    <th scope="col">学期</th>
+                                                                    <th scope="col">学分</th>
+                                                                    <th scope="col">学时</th>
+                                                                    <th scope="col">成绩</th>
+                                                                    <th scope="col">排名</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,14 +256,33 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+    <!-- 课程成绩详情modal-->
+    <!-- Modal -->
+    <div class="modal fade" id="courseDetailModal" tabindex="-1" role="dialog" aria-labelledby="courseDetailTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="courseDetailTitle">课程详情</h5>
+                    <button id="modalClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modalBody" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button id="modalFClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">确定要注销吗？</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -230,301 +301,23 @@
 <script src="static/vendor/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 <script src="static/vendor/popper/popper.min.js"></script>
 <script src="static/vendor/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- Core plugin JavaScript-->
 <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
-
+<script src="static/vendor/DataTables/datatables.min.js"></script>
+<script src="static/vendor/jqueryToast/js/toast.script.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="static/js/sb-admin-2.min.js"></script>
-
-
 <script src="static/vendor/echarts/echarts.min.js"></script>
 <script src="static/vendor/echarts/theme/walden.js"></script>
+<script src="static/js/showCharts.js"></script>
 <script type="text/javascript">
-    function showTermLineChart(chart, xData, yData) {
-        var option = {
-            title: {
-                text: '各学期成绩变化',
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['加权成绩']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-                {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: xData,
-                    axisLabel: {
-                        interval: 0,
-                        padding: [0, -5],
-                        rotate: 45,
-                    },
-                }
-            ],
-            yAxis:
-                {
-                    type: 'value',
-                    axisLabel: {
-                        formatter: '{value}'
-                    },
-                    max: 100,
-                    boundaryGap: [0.2, 0.2],
-                }
-            ,
-            series: [
-                {
-                    name: '加权成绩',
-                    type: 'line',
-                    data: yData,
-                    markPoint: {
-                        data: [
-                            {type: 'max', name: '最大值'},
-                            {type: 'min', name: '最小值'}
-                        ]
-                    },
-                    markLine: {
-                        data: [
-                            {type: 'average', name: '平均值'}
-                        ]
-                    }
-                },
-            ]
-        };
-        chart.setOption(option);
-    }
-
-    function showRankLineChart(chart, xData, yData, rankChange) {
-        var option = {
-            title: {
-                text: '各学期排名变化',
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['年级排名']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-                {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: xData,
-                    axisLabel: {
-                        interval: 0,
-                        padding: [0, -5],
-                        rotate: 45,
-                    },
-                }
-            ],
-            yAxis:
-                {
-                    type: 'category',
-
-                    boundaryGap: [0.2, 0.2],
-                }
-            ,
-            series: [
-                {
-                    name: '年级排名',
-                    type: 'line',
-                    data: yData,
-                    markPoint: {
-                        data: [],
-                        symbolSize: 20,
-                        symbolOffset: [0, -10],
-                        label: {
-                            show: true,
-                            formatter: function (params) {
-                                if (params.value < 0) {
-                                    return '{up|↑' + (-params.value) + '}';
-                                } else if (params.value > 0) {
-                                    return '{down|↓' + (params.value) + '}';
-                                }
-                            },
-                            rich: {
-                                up: {
-                                    color: 'green',
-                                },
-                                down: {
-                                    color: 'red',
-                                }
-                            }
-                        },
-                        itemStyle: {
-                            color: '#ffffff',
-                        }
-                    },
-                },
-            ]
-        };
-        for (var i = 0; i < rankChange.length; i++) {
-            var change = parseInt(rankChange[i]);
-            if (change == 0) {
-                continue;
-            }
-            option.series[0].markPoint.data.push({name: '成绩变化', value: change, xAxis: i, yAxis: i})
-        }
-        chart.setOption(option);
-    }
-
-    function showCourseBarChart(chart, xData, yData, greatMap) {
-        var yMax = 100;
-        var dataShadow = [];
-
-        for (var i = 0; i < yData.length; i++) {
-            dataShadow.push(yMax);
-        }
-
-        var option = {
-            title: {
-                // text: '特性示例：渐变色 阴影 点击缩放',
-                //  subtext: '点击或鼠标滚轮滑动缩放图表。(绿色表示成绩优异，蓝色表示成绩普通，红色表示成绩较差，需要注意！)'
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: '{b}<br/>成绩:{c1}'
-            },
-            grid: {
-                left: '10%',
-                bottom: '25%'
-            },
-            xAxis: {
-                data: xData,
-                axisTick: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                axisLabel: {
-                    interval: 0,
-                    padding: [0, -5],
-                    rotate: 45,
-                    formatter: function (value) {
-                        var ret = "";//拼接加\n返回的类目项
-                        var maxLength = 10;//每项显示文字个数
-                        var valLength = value.length;//X轴类目项的文字个数
-                        var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
-                        if (rowN > 1)//如果类目项的文字大于3,
-                        {
-                            for (var i = 0; i < rowN; i++) {
-                                var temp = "";//每次截取的字符串
-                                var start = i * maxLength;//开始截取的位置
-                                var end = start + maxLength;//结束截取的位置
-                                //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-                                temp = value.substring(start, end) + "\n";
-                                ret += temp; //凭借最终的字符串
-                            }
-                            return ret;
-                        } else {
-                            return value;
-                        }
-                    }
-                },
-                z: 10
-            },
-            yAxis: {
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                    textStyle: {
-                        color: '#999'
-                    }
-                }
-            },
-            dataZoom: [
-                {
-                    type: 'inside'
-                }
-            ],
-            series: [
-                { // For shadow
-                    type: 'bar',
-                    itemStyle: {
-                        color: 'rgba(0,0,0,0.05)'
-                    },
-                    barGap: '-100%',
-                    barCategoryGap: '40%',
-                    data: dataShadow,
-                    animation: false
-                },
-                {
-                    type: 'bar',
-                    // itemStyle: {
-                    //     emphasis: {
-                    //         color: new echarts.graphic.LinearGradient(
-                    //             0, 0, 0, 1,
-                    //             [
-                    //                 {offset: 0, color: '#2378f7'},
-                    //                 {offset: 0.7, color: '#2378f7'},
-                    //                 {offset: 1, color: '#83bff6'}
-                    //             ]
-                    //         )
-                    //     }
-                    // },
-                    data: yData
-                }
-            ]
-        };
-        chart.setOption(option);
-        // Enable data zoom when user click bar.
-        var zoomSize = 6;
-        chart.on('click', function (params) {
-            console.log(xData[Math.max(params.dataIndex - zoomSize / 2, 0)]);
-            chart.dispatchAction({
-                type: 'dataZoom',
-                startValue: xData[Math.max(params.dataIndex - zoomSize / 2, 0)],
-                endValue: xData[Math.min(params.dataIndex + zoomSize / 2, yData.length - 1)]
-            });
-        });
-    }
-
-    var list = [];
-    var courseList = [];
-    $("#selectScale").change(function () {
-        var ss = $(this).children('option:selected').val();
-        if (ss == "term") {
-            showChart(termChart, rankChart, 'term');
-        } else if (ss == "year") {
-            showChart(termChart, rankChart, 'year');
-        }
-    });
-
     function ajaxGetData(studentId) {
         var basepath = $('base').attr('href');
         var result = {};
         $.ajax({
             url: basepath + 'student/allAnalysis',
             async: false,
+            cache: true,
             type: "post",
             dataType: 'json',
             data: {
@@ -555,65 +348,12 @@
         return result;
     }
 
-    function showChart(termChart, rankChart, scale) {
-        var length = list.length;
-        var term = {
-            '0': '学年',
-            '1': '春季学期',
-            '2': '秋季学期'
-        }
-        var xData = [];
-        var yData = [];
-        if (length > 0) {
-            for (var i = 0; i < length; i++) {
-                if (list[i]['year'] !== null && list[i]['term'] !== null) {
-                    if (scale == 'term') {
-                        if (list[i]['term'] == '0') {
-                            continue;
-                        }
-                    } else {
-                        if (list[i]['term'] != '0') {
-                            continue;
-                        }
-                    }
-                    xData.push(list[i]['year'] + '\n' + term[list[i]['term']]);
-                }
-                if (list[i]['weightscore'] !== null) {
-                    yData.push(list[i]['weightscore']);
-                }
-            }
-            showTermLineChart(termChart, xData, yData);
-            //显示成绩排名
-            xData = [];
-            yData = [];
-            var rankChange = []
-            for (var i = 0; i < length; i++) {
-                if (list[i]['year'] !== null && list[i]['term'] !== null) {
-                    if (scale == 'term') {
-                        if (list[i]['term'] == '0') {
-                            continue;
-                        }
-                    } else {
-                        if (list[i]['term'] != '0') {
-                            continue;
-                        }
-                    }
-                    xData.push(list[i]['year'] + '\n' + term[list[i]['term']]);
-                }
-                if (list[i]['studentrank'] !== null) {
-                    yData.push(list[i]['studentrank']);
-                }
-                if (list[i]['scorechange'] !== null) {
-                    rankChange.push(list[i]['scorechange']);
-                }
-            }
-            showRankLineChart(rankChart, xData, yData, rankChange);
-        }
-    }
-
     var termChart;
     var rankChart;
     var courseChart;
+    var studentCourseTable;
+    var list = [];
+    var courseList = [];
     $(document).ready(function (e) {
         /**
          * 图表
@@ -623,56 +363,98 @@
         courseChart = echarts.init(document.getElementById('courseChart'), 'walden');
         var studentId =${sessionScope.student.studentid};
         var content = ajaxGetData(studentId);
+        var term = {
+            '0': '学年',
+            '1': '春季学期',
+            '2': '秋季学期'
+        };
         list = content.list;
         courseList = content.studentCourseList;
-        showChart(termChart, rankChart, 'term');
-        var xData = [];
-        var yData = [];
-        var greatMap = {};
-        var col = new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-                {offset: 0, color: '#6be6c1'},
-                {offset: 0.5, color: '#39f08f'},
-                {offset: 1, color: '#39f08f'}
-            ]
-        );
-        var nCol = new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-                {offset: 0, color: '#83bff6'},
-                {offset: 0.5, color: '#188df0'},
-                {offset: 1, color: '#188df0'}
-            ]
-        );
-        var bCol = new echarts.graphic.LinearGradient(
-            0, 0, 0, 1,
-            [
-                {offset: 0, color: '#f61b69'},
-                {offset: 0.5, color: '#f01835'},
-                {offset: 1, color: '#f01835'}
-            ]
-        );
-        for (var i = 0; i < courseList.length; i++) {
-            xData.push(courseList[i].course.coursename);
-            yData.push({name: courseList[i].course.coursename, value: courseList[i].score,})
-
-            if (parseInt(courseList[i].great) == 1) {
-                yData[i]['itemStyle'] = {color: col};
-            } else if (parseInt(courseList[i].great) == 2) {
-                yData[i]['itemStyle'] = {color: nCol};
-            } else {
-                yData[i]['itemStyle'] = {color: bCol};
-            }
-        }
-        showCourseBarChart(courseChart, xData, yData, greatMap);
+        showChart(termChart, rankChart, list, 'term');
+        var basepath = $('base').attr('href');
+        var url = basepath + '/student/courseDetail';
+        showStudentCourseChart(courseChart, courseList, '', url);
         window.onresize = function () {
             termChart.resize();
             rankChart.resize();
             courseChart.resize();
         };
+        /*
+        表格
+         */
+        studentCourseTable = $('#studentCourseTable').DataTable({
+            lengthChange: false,
+            select: true,
+            language: {
+                "decimal": "",
+                "emptyTable": "没有数据",
+                "info": "第 _START_ 页/共 _END_ 页（共_TOTAL_ 门课程）",
+                "infoEmpty": "",
+                "infoFiltered": "(filtered from _MAX_ total entries)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "每页显示 _MENU_ 门课程",
+                "loadingRecords": "加载中...",
+                "processing": "处理中...",
+                "search": "搜索：",
+                "zeroRecords": "未找到结果，请重试。",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "下一页",
+                    "previous": "上一页"
+                },
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+            }
+        });
+        showStudentCourseTable(studentCourseTable, courseList, '', url);
+
+        //表格选择不同学期
+        $('#studentCourseTable_wrapper > div:nth-child(1) > div:nth-child(1)').append('<div id="studentCourseTable_length"></div>')
+        $('#studentCourseTable_length').attr('class', 'form-inline');
+        $('#studentCourseTable_length').append('<label>&emsp;选择学期：' +
+            '                                                                <select class="custom-select" id="tableTermSelect">\n' +
+            '                                                                    <option selected></option>\n' +
+            '                                                                </select>\n' +
+            '                                                            </label>');
+        var termSelect = $('#termSelect');
+        var tableTermSelect = $('#tableTermSelect');
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].term == '0') {
+                continue;
+            }
+            var termvalue = list[i].year + '+' + list[i].term;
+            var termtext = list[i].year + term[list[i].term];
+            termSelect.append("<option value=\'" + termvalue + "\'>" + termtext + "</option>");
+            tableTermSelect.append("<option value=\'" + termvalue + "\'>" + termtext + "</option>");
+        }
         //初始化tooltip
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
+        $('#modalFClose').click(function () {
+            $('#modalBody').html("");
+        });
+        $('#modalClose').click(function () {
+            $('#modalBody').html("");
+        });
+        $("#selectScale").change(function () {
+            var ss = $(this).children('option:selected').val();
+            if (ss == "term") {
+                showChart(termChart, rankChart, list, 'term');
+            } else if (ss == "year") {
+                showChart(termChart, rankChart, list, 'year');
+            }
+        });
+        $("#termSelect").change(function () {
+            var ss = $(this).children('option:selected').val();
+            showStudentCourseChart(courseChart, courseList, ss, url);
+        });
+        $('#tableTermSelect').change(function () {
+            var ss = $(this).children('option:selected').val();
+            showStudentCourseTable(studentCourseTable, courseList, ss, url);
+        });
     });
 
 </script>

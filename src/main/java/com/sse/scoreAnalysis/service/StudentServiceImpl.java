@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentMapper studentMapper;
     @Autowired
@@ -24,41 +24,65 @@ public class StudentServiceImpl implements StudentService{
      */
     @Override
     public Student getStudentInfo(String studentId) {
-        Student student=studentMapper.selectByPrimaryKey(studentId);
-        if(student!=null){
+        Student student = studentMapper.selectByPrimaryKey(studentId);
+        if (student != null) {
             return student;
         }
         return null;
     }
 
     @Override
-    public int getStudentNumByClass(String classId) {
+    public List<Student> getStudentInfoByClassIdList(List<String> classIdList) {
         StudentExample studentExample=new StudentExample();
         StudentExample.Criteria criteria=studentExample.createCriteria();
+        criteria.andClassidIn(classIdList);
+        criteria.andWeightscoreIsNotNull();
+        studentExample.setOrderByClause("studentRank ASC");
+        return studentMapper.selectByExample(studentExample);
+    }
+
+    @Override
+    public int getStudentNumByClass(String classId) {
+        StudentExample studentExample = new StudentExample();
+        StudentExample.Criteria criteria = studentExample.createCriteria();
         criteria.andClassidEqualTo(classId);
-        int count= (int) studentMapper.countByExample(studentExample);
+        int count = (int) studentMapper.countByExample(studentExample);
         return count;
     }
 
     @Override
     public int getStudentNumInSameMajor(String classId) {
         //查询该classid的信息
-        Class c=classMapper.selectByPrimaryKey(classId);
-        ClassExample classExample=new ClassExample();
-        ClassExample.Criteria criteria=classExample.createCriteria();
+        Class c = classMapper.selectByPrimaryKey(classId);
+        ClassExample classExample = new ClassExample();
+        ClassExample.Criteria criteria = classExample.createCriteria();
         criteria.andCollegeidEqualTo(c.getCollegeid());
         criteria.andMajoridEqualTo(c.getMajorid());
         criteria.andGradeEqualTo(c.getGrade());
-        List<Class> classes=classMapper.selectByExample(classExample);
+        List<Class> classes = classMapper.selectByExample(classExample);
         //查询classes中的学生数量
-        StudentExample studentExample=new StudentExample();
-        StudentExample.Criteria criteria1=studentExample.createCriteria();
-        List<String> classIds= new ArrayList<>();
-        for (Class cla:classes) {
+        StudentExample studentExample = new StudentExample();
+        StudentExample.Criteria criteria1 = studentExample.createCriteria();
+        List<String> classIds = new ArrayList<>();
+        for (Class cla : classes) {
             classIds.add(cla.getClassid());
         }
         criteria1.andClassidIn(classIds);
-        int count= (int) studentMapper.countByExample(studentExample);
+        criteria1.andWeightscoreIsNotNull();
+        int count = (int) studentMapper.countByExample(studentExample);
+        return count;
+    }
+
+    @Override
+    public int getStudentNumInClassList(List<Class> classList) {
+        StudentExample studentExample = new StudentExample();
+        StudentExample.Criteria criteria = studentExample.createCriteria();
+        List<String> classIds = new ArrayList<>();
+        for (Class cla : classList) {
+            classIds.add(cla.getClassid());
+        }
+        criteria.andClassidIn(classIds);
+        int count = (int) studentMapper.countByExample(studentExample);
         return count;
     }
 }

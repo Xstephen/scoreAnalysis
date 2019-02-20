@@ -8,6 +8,7 @@
     <result column="studentRank" jdbcType="INTEGER" property="studentrank" />
     <result column="failureSum" jdbcType="INTEGER" property="failuresum" />
     <result column="weightScore" jdbcType="DOUBLE" property="weightscore" />
+    <result column="studentAscend" jdbcType="INTEGER" property="studentascend" />
     <result column="classId" jdbcType="VARCHAR" property="classid" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    studentId, password, studentName, studentRank, failureSum, weightScore, classId
+    studentId, password, studentName, studentRank, failureSum, weightScore,studentAscend,classId
   </sql>
   <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultMap="BaseResultMap">
     select

@@ -13,6 +13,8 @@ public class Student {
 
     private Double weightscore;
 
+    private Integer studentascend;
+
     private String classid;
 
     public String getStudentid() {
@@ -69,5 +71,13 @@ public class Student {
 
     public void setClassid(String classid) {
         this.classid = classid == null ? null : classid.trim();
+    }
+
+    public Integer getStudentascend() {
+        return studentascend;
+    }
+
+    public void setStudentascend(Integer studentascend) {
+        this.studentascend = studentascend;
     }
 }

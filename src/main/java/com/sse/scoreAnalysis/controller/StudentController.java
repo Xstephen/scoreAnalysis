@@ -3,10 +3,7 @@ package com.sse.scoreAnalysis.controller;
 
 import com.sse.scoreAnalysis.model.*;
 import com.sse.scoreAnalysis.model.Class;
-import com.sse.scoreAnalysis.service.ClassService;
-import com.sse.scoreAnalysis.service.StudentAnalysisService;
-import com.sse.scoreAnalysis.service.StudentCourseService;
-import com.sse.scoreAnalysis.service.StudentService;
+import com.sse.scoreAnalysis.service.*;
 import com.sse.scoreAnalysis.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +28,8 @@ public class StudentController {
     private ClassService classService;
     @Autowired
     private StudentCourseService studentCourseService;
-
+    @Autowired
+    private CollegeCourseService collegeCourseService;
     @RequestMapping("/")
     public String mainPage(HttpSession session){
         //从session中取出user信息
@@ -84,6 +82,22 @@ public class StudentController {
         }else {
             //至少其中一个为空，返回失败
             result=Message.fail("查询失败");
+        }
+        return result;
+    }
+    /*
+   ajax根据collegeCourse的主键返回该课程的分析结果
+    */
+    @RequestMapping(value="/courseDetail",method= RequestMethod.POST)
+    @ResponseBody
+    //这个注解会自动调用相关jar包的api将你要返回的对象自动的转化为JSON字符串后，封装到response中，然后返回给浏览器
+    public Message allAnalysis(CollegeCourseKey collegeCourseKey){
+        Message result;
+        CollegeCourse collegeCourse=collegeCourseService.getCollegeCourseByKey(collegeCourseKey);
+        if(collegeCourse!=null){
+            result=Message.success().add("collegeCourse",collegeCourse);
+        }else{
+            result=Message.fail("查询课程详情失败，请重试！");
         }
         return result;
     }

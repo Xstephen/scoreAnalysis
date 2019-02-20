@@ -20,6 +20,10 @@ public interface StudentAnalysisMapper {
 
     StudentAnalysis selectByPrimaryKey(Integer id);
 
+    List<StudentAnalysis> selectByExampleWithStudentInfo(StudentAnalysisExample example);
+
+    StudentAnalysis selectByPrimaryKeyWithStudentInfo(Integer id);
+
     int updateByExampleSelective(@Param("record") StudentAnalysis record, @Param("example") StudentAnalysisExample example);
 
     int updateByExample(@Param("record") StudentAnalysis record, @Param("example") StudentAnalysisExample example);

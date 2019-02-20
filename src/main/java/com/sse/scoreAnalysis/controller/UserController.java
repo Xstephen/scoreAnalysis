@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletOutputStream;
@@ -30,13 +31,21 @@ public class UserController {
     private UserService userService;
     //默认首页
     @RequestMapping("/")
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response){
-        return new ModelAndView("login");
+    public String index(HttpSession session){
+        if(session.getAttribute("user")!=null){
+            //已经登录
+            return "forward:/main";
+        }
+        return "login";
     }
 
     //正常访问login页面
     @RequestMapping("/login")
-    public String login(){
+    public String login(HttpSession session){
+        if(session.getAttribute("user")!=null){
+            //已经登录
+            return "forward:/main";
+        }
         return "login";
     }
 
@@ -86,7 +95,7 @@ public class UserController {
                 break;
             case 1:
                 //辅导员
-                break;
+                return "redirect:/counselor/";
             case 2:
                 //学生
                 return "redirect:/student/";
@@ -95,10 +104,12 @@ public class UserController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session,SessionStatus sessionStatus){
         //通过session.invalidate方法注销当前session
+        session.removeAttribute("user");
         session.invalidate();
-        return "login";
+        sessionStatus.setComplete();
+        return "redirect:/";
     }
 
     /*

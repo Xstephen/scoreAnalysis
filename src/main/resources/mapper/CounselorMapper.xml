@@ -8,6 +8,19 @@
     <result column="collegeId" jdbcType="VARCHAR" property="collegeid" />
     <result column="majorId" jdbcType="VARCHAR" property="majorid" />
   </resultMap>
+  <resultMap id="resultMapWithCollege" type="com.sse.scoreAnalysis.model.Counselor">
+    <id column="counselorId" jdbcType="VARCHAR" property="counselorid" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="counselorName" jdbcType="VARCHAR" property="counselorname" />
+    <result column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+    <result column="majorId" jdbcType="VARCHAR" property="majorid" />
+    <association property="college" javaType="com.sse.scoreAnalysis.model.College">
+      <id column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+      <id column="majorId" jdbcType="VARCHAR" property="majorid" />
+      <result column="collegeName" jdbcType="VARCHAR" property="collegename" />
+      <result column="majorName" jdbcType="VARCHAR" property="majorname" />
+    </association>
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -69,6 +82,26 @@
   <sql id="Base_Column_List">
     counselorId, password, counselorName, collegeId, majorId
   </sql>
+  <sql id="Base_Column_List_With_College">
+    c.counselorId,c.password,c.counselorName,c.collegeId,c.majorId,co.collegeId,co.collegeName,co.majorId,co.majorName
+  </sql>
+  <!--List<Counselor> selectByExampleWithCollege(CounselorExample example);-->
+  <!--Counselor selectByPrimaryKeyWithCollege(String counselorid);-->
+  <select id="selectByExampleWithCollege" parameterType="com.sse.scoreAnalysis.model.CounselorExample" resultMap="resultMapWithCollege">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List_With_College" />
+    from counselor c
+    left join college co on c.collegeId=co.collegeId and c.majorId=co.majorId
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.CounselorExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -83,8 +116,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKeyWithCollege" parameterType="java.lang.String" resultMap="resultMapWithCollege">
     select 
+    <include refid="Base_Column_List_With_College" />
+    from counselor c
+    left join college co on c.collegeId=co.collegeId and c.majorId=co.majorId
+    where counselorId = #{counselorid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from counselor
     where counselorId = #{counselorid,jdbcType=VARCHAR}
