@@ -17,11 +17,10 @@
     <title>成绩分析系统</title>
     <link rel="shortcut icon" href="static/images/favicon.ico"/>
     <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
     <link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/vendor/jqueryToast/css/toast.style.css">
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -208,7 +207,7 @@
 <!-- Bootstrap core JavaScript-->
 <script src="static/vendor/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 <script src="static/vendor/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="static/vendor/jqueryToast/js/toast.script.js"></script>
 <!-- Core plugin JavaScript-->
 <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
 

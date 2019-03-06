@@ -23,6 +23,8 @@ public interface StudentCourseMapper {
 
     List<StudentCourse> selectByExampleWithCourse(StudentCourseExample example);
 
+    List<StudentCourse> selectByExampleWithStudent(StudentCourseExample example);
+
     StudentCourse selectByPrimaryKeyWithCourse(StudentCourseKey key);
 
     List<StudentCourse> selectYearTermByExample(StudentCourseExample example);

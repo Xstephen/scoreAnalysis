@@ -13,6 +13,10 @@ public class CollegeCourse extends CollegeCourseKey {
 
     private Integer failurenum;
 
+
+    //查询学生某个课程成绩时将课程信息也查询出来
+    private Course course;
+
     public Integer getMaxscore() {
         return maxscore;
     }
@@ -59,5 +63,13 @@ public class CollegeCourse extends CollegeCourseKey {
 
     public void setFailurenum(Integer failurenum) {
         this.failurenum = failurenum;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

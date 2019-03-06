@@ -8,8 +8,15 @@ public class StudentCourse extends StudentCourseKey {
     private Integer flag;
 
     private Integer great;
+
+    private Integer first;
+
+    private Integer pass;
     //查询学生某个课程成绩时将课程信息也查询出来
     private Course course;
+
+    //通过课程信息查询学生课程时，将学生信息也查询出来
+    private Student student;
 
     public Integer getScore() {
         return score;
@@ -49,5 +56,29 @@ public class StudentCourse extends StudentCourseKey {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public Integer getPass() {
+        return pass;
+    }
+
+    public void setPass(Integer pass) {
+        this.pass = pass;
+    }
+
+    public Integer getFirst() {
+        return first;
+    }
+
+    public void setFirst(Integer first) {
+        this.first = first;
     }
 }

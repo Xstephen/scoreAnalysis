@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,11 @@ public class StudentController {
     @Autowired
     private CollegeCourseService collegeCourseService;
     @RequestMapping("/")
-    public String mainPage(HttpSession session){
+    public String mainPage(HttpServletRequest request, HttpSession session){
+        String info= (String) session.getAttribute("info");
+        if(info!=null){
+            request.setAttribute("info",info);
+        }
         //从session中取出user信息
         User user=(User) session.getAttribute("user");
         //将该学生的基本信息存入session中

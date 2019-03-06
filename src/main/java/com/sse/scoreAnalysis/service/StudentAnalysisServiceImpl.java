@@ -36,7 +36,7 @@ public class StudentAnalysisServiceImpl implements StudentAnalysisService {
         StudentAnalysisExample.Criteria criteria=studentAnalysisExample.createCriteria();
         criteria.andStudentidIn(studentIdList);
         criteria.andYearEqualTo(year);
-        criteria.andTermEqualTo(0);
+        criteria.andTermEqualTo(Integer.valueOf(0));
         return studentAnalysisMapper.selectByExampleWithStudentInfo(studentAnalysisExample);
     }
 }

@@ -1,9 +1,12 @@
 package com.sse.scoreAnalysis.dao;
 
+import com.sse.scoreAnalysis.model.College;
 import com.sse.scoreAnalysis.model.CollegeCourse;
 import com.sse.scoreAnalysis.model.CollegeCourseExample;
 import com.sse.scoreAnalysis.model.CollegeCourseKey;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface CollegeCourseMapper {
@@ -20,6 +23,12 @@ public interface CollegeCourseMapper {
     List<CollegeCourse> selectByExample(CollegeCourseExample example);
 
     CollegeCourse selectByPrimaryKey(CollegeCourseKey key);
+
+    CollegeCourse selectByPrimaryKeyWithCourse(CollegeCourseKey key);
+
+    List<CollegeCourse> selectCourseInfoInStudentIdList(@Param("loginYear")String loginYear,@Param("studentIdList") List<String> studentIdList);
+
+    List<Map<CollegeCourseKey,Object>> selectCourseInfoInStudentIdListWithNotPass(@Param("loginYear")String loginYear, @Param("studentIdList") List<String> studentIdList);
 
     int updateByExampleSelective(@Param("record") CollegeCourse record, @Param("example") CollegeCourseExample example);
 

@@ -1034,6 +1034,25 @@
     }
 
     $(document).ready(function (e) {
+        var serviceInfo = '${info}';
+        alert(serviceInfo);
+        if (serviceInfo != "") {
+            alert(serviceInfo);
+            $.Toast("提示", serviceInfo, "warning", {
+                stack: true,
+                has_icon: true,
+                has_close_btn: false,
+                fullscreen: false,
+                width: 400,
+                spacing: 20,
+                timeout: 3000,
+                border_radius: 8,
+                sticky: false,
+                position_class: "toast-top-right",
+                has_progress: false,
+                rtl: false
+            });
+        }
         termChart = echarts.init(document.getElementById('termChart'), 'walden');
         rankChart = echarts.init(document.getElementById('rankChart'), 'walden');
         $('#dataShowDiv').hide();

@@ -17,12 +17,11 @@
     <title>成绩分析系统</title>
     <link rel="shortcut icon" href="static/images/favicon.ico"/>
     <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
-    <%--<link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">--%>
+    <link href="static/vendor/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="static/vendor/DataTables/datatables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/vendor/jqueryToast/css/toast.style.css">
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -132,7 +131,7 @@
                                             <div class="card-header border-0 py-3">
                                                 <div class="row  form-inline">
                                                     <label>
-                                                        <h6 class="m-0 font-weight-bold">
+                                                        <h6 id="studentAnalaysisLabel" class="m-0 font-weight-bold">
                                                             各学期成绩总览&emsp;年级总人数:${sessionScope.studentInfo.studentCountG}&emsp;</h6>
                                                     </label>
                                                     <div>
@@ -301,10 +300,10 @@
 <script src="static/vendor/jquery-3.3.1/jquery-3.3.1.min.js"></script>
 <script src="static/vendor/popper/popper.min.js"></script>
 <script src="static/vendor/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="static/vendor/jqueryToast/js/toast.script.js"></script>
 <!-- Core plugin JavaScript-->
 <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="static/vendor/DataTables/datatables.min.js"></script>
-<script src="static/vendor/jqueryToast/js/toast.script.js"></script>
 <!-- Custom scripts for all pages-->
 <script src="static/js/sb-admin-2.min.js"></script>
 <script src="static/vendor/echarts/echarts.min.js"></script>
@@ -369,6 +368,7 @@
             '2': '秋季学期'
         };
         list = content.list;
+        if(list){
         courseList = content.studentCourseList;
         showChart(termChart, rankChart, list, 'term');
         var basepath = $('base').attr('href');
@@ -386,27 +386,27 @@
             lengthChange: false,
             select: true,
             language: {
-                "decimal": "",
-                "emptyTable": "没有数据",
-                "info": "第 _START_ 页/共 _END_ 页（共_TOTAL_ 门课程）",
-                "infoEmpty": "",
-                "infoFiltered": "(filtered from _MAX_ total entries)",
-                "infoPostFix": "",
-                "thousands": ",",
-                "lengthMenu": "每页显示 _MENU_ 门课程",
-                "loadingRecords": "加载中...",
-                "processing": "处理中...",
-                "search": "搜索：",
-                "zeroRecords": "未找到结果，请重试。",
-                "paginate": {
-                    "first": "First",
-                    "last": "Last",
-                    "next": "下一页",
-                    "previous": "上一页"
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
                 },
-                "aria": {
-                    "sortAscending": ": activate to sort column ascending",
-                    "sortDescending": ": activate to sort column descending"
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
                 }
             }
         });
@@ -439,11 +439,14 @@
         $('#modalClose').click(function () {
             $('#modalBody').html("");
         });
+        var studentCount=${sessionScope.studentInfo.studentCountG};
         $("#selectScale").change(function () {
             var ss = $(this).children('option:selected').val();
             if (ss == "term") {
+                $('#studentAnalaysisLabel').html('各学期成绩总览&emsp;年级总人数:'+studentCount+'&emsp;');
                 showChart(termChart, rankChart, list, 'term');
             } else if (ss == "year") {
+                $('#studentAnalaysisLabel').html('各学年成绩总览&emsp;年级总人数:'+studentCount+'&emsp;');
                 showChart(termChart, rankChart, list, 'year');
             }
         });
@@ -455,6 +458,7 @@
             var ss = $(this).children('option:selected').val();
             showStudentCourseTable(studentCourseTable, courseList, ss, url);
         });
+        }
     });
 
 </script>

@@ -2,15 +2,14 @@ package com.sse.scoreAnalysis.controller;
 
 import com.sse.scoreAnalysis.model.User;
 import com.sse.scoreAnalysis.service.UserService;
+import com.sse.scoreAnalysis.utils.Message;
+import com.sse.scoreAnalysis.utils.RSAUtils;
 import com.sse.scoreAnalysis.utils.VerifyCodeUtil;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,14 +24,14 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 
-@SessionAttributes("user")
 public class UserController {
     @Autowired
     private UserService userService;
     //默认首页
     @RequestMapping("/")
     public String index(HttpSession session){
-        if(session.getAttribute("user")!=null){
+        User user= (User) session.getAttribute("user");
+        if(user!=null){
             //已经登录
             return "forward:/main";
         }
@@ -52,7 +51,7 @@ public class UserController {
     //表单提交过来的路径
     @RequestMapping(value = "/checkLogin",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> checkLogin(HttpServletRequest request,HttpSession session,User user, Model model){
+    public Map<String,Object> checkLogin(HttpServletRequest request,HttpSession session,User formUser){
         Map<String, Object> resultMap = new HashMap<>();
         //获取用户输入的验证码
         String verifyCode= (String) request.getParameter("verifyCode");
@@ -64,12 +63,16 @@ public class UserController {
             resultMap.put("msg","验证码错误！");
             return resultMap;
         }
+        //解密
+        User decryptUser=new User();
+        decryptUser.setUserId(RSAUtils.decryptBase64(formUser.getUserId()));
+        decryptUser.setUserPassword(RSAUtils.decryptBase64(formUser.getUserPassword()));
         //调用service方法
-        User loginUser=userService.checkLogin(user.getUserId(),user.getUserPassword());
+        User loginUser=userService.checkLogin(decryptUser.getUserId());
         //如果有user添加到model里并跳转到主页面
         if(loginUser!=null){
-            if(loginUser.getUserPassword().equals(user.getUserPassword())){
-                model.addAttribute("user",loginUser);
+            if(loginUser.getUserPassword().equals(decryptUser.getUserPassword())){
+                session.setAttribute("user",loginUser);
                 resultMap.put("success",true);
             }
             else {
@@ -85,14 +88,18 @@ public class UserController {
 
     //跳转到主页面
     @RequestMapping("/main")
-    public String mainPage(HttpSession session){
+    public String mainPage(HttpServletRequest request,HttpSession session){
         //获取用户信息，判断应该跳转的页面
         User user=(User) session.getAttribute("user");
+        String info= (String) request.getAttribute("info");
+        if(info!=null){
+            session.setAttribute("info",info);
+        }
         int role=user.getRole();
         switch (role){
             case 0:
                 //教务长
-                break;
+                return "redirect:/admin/";
             case 1:
                 //辅导员
                 return "redirect:/counselor/";
@@ -127,5 +134,20 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    /*
+    获取公钥
+     */
+    @RequestMapping(value="/getPublic",method=RequestMethod.POST)
+    @ResponseBody
+    public Message getPublic() {
+        String publicKey = RSAUtils.generateBase64PublicKey();
+        Message result = null;
+        if (publicKey == null) {
+            result = Message.fail("获取公钥失败，请重试！");
+        } else {
+            result = Message.success().add("publicKey", publicKey);
+        }
+        return result;
     }
 }

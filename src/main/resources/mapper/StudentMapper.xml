@@ -1,108 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sse.scoreAnalysis.dao.StudentMapper">
-  <resultMap id="BaseResultMap" type="com.sse.scoreAnalysis.model.Student">
-    <id column="studentId" jdbcType="VARCHAR" property="studentid" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="studentName" jdbcType="VARCHAR" property="studentname" />
-    <result column="studentRank" jdbcType="INTEGER" property="studentrank" />
-    <result column="failureSum" jdbcType="INTEGER" property="failuresum" />
-    <result column="weightScore" jdbcType="DOUBLE" property="weightscore" />
-    <result column="studentAscend" jdbcType="INTEGER" property="studentascend" />
-    <result column="classId" jdbcType="VARCHAR" property="classid" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.sse.scoreAnalysis.model.Student">
+        <id column="studentId" jdbcType="VARCHAR" property="studentid"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="studentName" jdbcType="VARCHAR" property="studentname"/>
+        <result column="loginYear" jdbcType="CHAR" property="loginyear"/>
+        <result column="grade" jdbcType="CHAR" property="grade"/>
+        <result column="studentRank" jdbcType="INTEGER" property="studentrank"/>
+        <result column="failureSum" jdbcType="INTEGER" property="failuresum"/>
+        <result column="weightScore" jdbcType="DOUBLE" property="weightscore"/>
+        <result column="studentAscend" jdbcType="INTEGER" property="studentascend"/>
+        <result column="classId" jdbcType="VARCHAR" property="classid"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+studentId, password, studentName, loginYear, grade, studentRank, failureSum, weightScore, studentAscend, classId
+    </sql>
+    <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    studentId, password, studentName, studentRank, failureSum, weightScore,studentAscend,classId
-  </sql>
-  <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from student
-    where studentId = #{studentid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <include refid="Base_Column_List"/>
+        from student
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where studentId = #{studentid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from student
     where studentId = #{studentid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample">
-    delete from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.sse.scoreAnalysis.model.Student">
+    <delete id="deleteByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample">
+        delete from student
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.sse.scoreAnalysis.model.Student">
     insert into student (studentId, password, studentName, 
       studentRank, failureSum, weightScore, 
       classId)
@@ -110,128 +114,128 @@
       #{studentrank,jdbcType=INTEGER}, #{failuresum,jdbcType=INTEGER}, #{weightscore,jdbcType=DOUBLE}, 
       #{classid,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sse.scoreAnalysis.model.Student">
-    insert into student
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="studentid != null">
-        studentId,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="studentname != null">
-        studentName,
-      </if>
-      <if test="studentrank != null">
-        studentRank,
-      </if>
-      <if test="failuresum != null">
-        failureSum,
-      </if>
-      <if test="weightscore != null">
-        weightScore,
-      </if>
-      <if test="classid != null">
-        classId,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="studentid != null">
-        #{studentid,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="studentname != null">
-        #{studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="studentrank != null">
-        #{studentrank,jdbcType=INTEGER},
-      </if>
-      <if test="failuresum != null">
-        #{failuresum,jdbcType=INTEGER},
-      </if>
-      <if test="weightscore != null">
-        #{weightscore,jdbcType=DOUBLE},
-      </if>
-      <if test="classid != null">
-        #{classid,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultType="java.lang.Long">
-    select count(*) from student
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update student
-    <set>
-      <if test="record.studentid != null">
-        studentId = #{record.studentid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null">
+    <insert id="insertSelective" parameterType="com.sse.scoreAnalysis.model.Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentid != null">
+                studentId,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="studentname != null">
+                studentName,
+            </if>
+            <if test="studentrank != null">
+                studentRank,
+            </if>
+            <if test="failuresum != null">
+                failureSum,
+            </if>
+            <if test="weightscore != null">
+                weightScore,
+            </if>
+            <if test="classid != null">
+                classId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentid != null">
+                #{studentid,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="studentname != null">
+                #{studentname,jdbcType=VARCHAR},
+            </if>
+            <if test="studentrank != null">
+                #{studentrank,jdbcType=INTEGER},
+            </if>
+            <if test="failuresum != null">
+                #{failuresum,jdbcType=INTEGER},
+            </if>
+            <if test="weightscore != null">
+                #{weightscore,jdbcType=DOUBLE},
+            </if>
+            <if test="classid != null">
+                #{classid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultType="java.lang.Long">
+        select count(*) from student
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update student
+        <set>
+            <if test="record.studentid != null">
+                studentId = #{record.studentid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.password != null">
+                password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.studentname != null">
+                studentName = #{record.studentname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.studentrank != null">
+                studentRank = #{record.studentrank,jdbcType=INTEGER},
+            </if>
+            <if test="record.failuresum != null">
+                failureSum = #{record.failuresum,jdbcType=INTEGER},
+            </if>
+            <if test="record.weightscore != null">
+                weightScore = #{record.weightscore,jdbcType=DOUBLE},
+            </if>
+            <if test="record.classid != null">
+                classId = #{record.classid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update student
+        set studentId = #{record.studentid,jdbcType=VARCHAR},
         password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.studentname != null">
         studentName = #{record.studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.studentrank != null">
         studentRank = #{record.studentrank,jdbcType=INTEGER},
-      </if>
-      <if test="record.failuresum != null">
         failureSum = #{record.failuresum,jdbcType=INTEGER},
-      </if>
-      <if test="record.weightscore != null">
         weightScore = #{record.weightscore,jdbcType=DOUBLE},
-      </if>
-      <if test="record.classid != null">
-        classId = #{record.classid,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update student
-    set studentId = #{record.studentid,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      studentName = #{record.studentname,jdbcType=VARCHAR},
-      studentRank = #{record.studentrank,jdbcType=INTEGER},
-      failureSum = #{record.failuresum,jdbcType=INTEGER},
-      weightScore = #{record.weightscore,jdbcType=DOUBLE},
-      classId = #{record.classid,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sse.scoreAnalysis.model.Student">
-    update student
-    <set>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="studentname != null">
-        studentName = #{studentname,jdbcType=VARCHAR},
-      </if>
-      <if test="studentrank != null">
-        studentRank = #{studentrank,jdbcType=INTEGER},
-      </if>
-      <if test="failuresum != null">
-        failureSum = #{failuresum,jdbcType=INTEGER},
-      </if>
-      <if test="weightscore != null">
-        weightScore = #{weightscore,jdbcType=DOUBLE},
-      </if>
-      <if test="classid != null">
-        classId = #{classid,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where studentId = #{studentid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.Student">
+        classId = #{record.classid,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sse.scoreAnalysis.model.Student">
+        update student
+        <set>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="studentname != null">
+                studentName = #{studentname,jdbcType=VARCHAR},
+            </if>
+            <if test="studentrank != null">
+                studentRank = #{studentrank,jdbcType=INTEGER},
+            </if>
+            <if test="failuresum != null">
+                failureSum = #{failuresum,jdbcType=INTEGER},
+            </if>
+            <if test="weightscore != null">
+                weightScore = #{weightscore,jdbcType=DOUBLE},
+            </if>
+            <if test="classid != null">
+                classId = #{classid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where studentId = #{studentid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.Student">
     update student
     set password = #{password,jdbcType=VARCHAR},
       studentName = #{studentname,jdbcType=VARCHAR},

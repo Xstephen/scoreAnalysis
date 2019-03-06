@@ -7,6 +7,10 @@ public class Student {
 
     private String studentname;
 
+    private String loginyear;
+
+    private String grade;
+
     private Integer studentrank;
 
     private Integer failuresum;
@@ -79,5 +83,21 @@ public class Student {
 
     public void setStudentascend(Integer studentascend) {
         this.studentascend = studentascend;
+    }
+
+    public String getLoginyear() {
+        return loginyear;
+    }
+
+    public void setLoginyear(String loginyear) {
+        this.loginyear = loginyear;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }
