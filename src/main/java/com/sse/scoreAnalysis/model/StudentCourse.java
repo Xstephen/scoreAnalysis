@@ -12,6 +12,9 @@ public class StudentCourse extends StudentCourseKey {
     private Integer first;
 
     private Integer pass;
+
+    private String grade;
+
     //查询学生某个课程成绩时将课程信息也查询出来
     private Course course;
 
@@ -80,5 +83,13 @@ public class StudentCourse extends StudentCourseKey {
 
     public void setFirst(Integer first) {
         this.first = first;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }

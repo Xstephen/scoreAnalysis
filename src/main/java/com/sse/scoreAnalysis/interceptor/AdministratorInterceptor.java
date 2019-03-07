@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class AdminInterceptor implements HandlerInterceptor {
+public class AdministratorInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session=request.getSession();
         User user= (User) session.getAttribute("user");
-        if(user!=null&&user.getRole()==2){
+        if(user!=null&&user.getRole()==0){
             return true;
         }else {
             request.setAttribute("info","您没有权限访问该路径！");
             //response.sendRedirect(request.getContextPath()+"/login");
-            request.getRequestDispatcher("//main").forward(request, response);
+            request.getRequestDispatcher("/main").forward(request, response);
             return false;
         }
     }

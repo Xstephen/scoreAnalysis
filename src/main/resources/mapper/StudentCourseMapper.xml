@@ -14,6 +14,7 @@
         <result column="great" jdbcType="INTEGER" property="great"/>
         <result column="first" jdbcType="INTEGER" property="first"/>
         <result column="pass" jdbcType="INTEGER" property="pass"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
     </resultMap>
     <resultMap id="WithCourseMap" type="com.sse.scoreAnalysis.model.StudentCourse">
         <id column="collegeId" jdbcType="VARCHAR" property="collegeid"/>
@@ -28,6 +29,7 @@
         <result column="great" jdbcType="INTEGER" property="great"/>
         <result column="first" jdbcType="INTEGER" property="first"/>
         <result column="pass" jdbcType="INTEGER" property="pass"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
         <association property="course" javaType="com.sse.scoreAnalysis.model.Course">
             <!--c.courseId,c.courseName,c.courseType,c.credit,c.classHour-->
             <id column="courseId" property="courseid"/>
@@ -50,6 +52,7 @@
         <result column="great" jdbcType="INTEGER" property="great"/>
         <result column="first" jdbcType="INTEGER" property="first"/>
         <result column="pass" jdbcType="INTEGER" property="pass"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
         <association property="student" javaType="com.sse.scoreAnalysis.model.Student">
             <id column="studentId" jdbcType="VARCHAR" property="studentid"/>
             <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -152,14 +155,14 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    collegeId, majorId, courseId, year, term, studentId, score, studentRank, flag, great,first,pass
+    collegeId, majorId, courseId, year, term, studentId, score, studentRank, flag, great,first,pass,grade
   </sql>
     <sql id="Column_List_With_Course">
-    sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,sc.first,sc.pass,
+    sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,sc.first,sc.pass,sc.grade,
     c.courseId,c.courseName,c.courseType,c.credit,c.classHour
   </sql>
     <sql id="Column_List_With_Student">
-    sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,sc.first,sc.pass,
+    sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,sc.first,sc.pass,sc.grade,
     s.studentId, s.studentName, s.studentRank, s.failureSum, s.weightScore,s.studentAscend,s.classId
   </sql>
     <sql id="YearTermList">

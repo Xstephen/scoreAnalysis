@@ -36,27 +36,26 @@
         </javaClientGenerator>
 
         <!--每个表的生成策略-->
-        <table tableName="admin" domainObjectName="Administrator">
-        </table>
-        <table tableName="class" domainObjectName="Class">
-        </table>
-        <table tableName="college" domainObjectName="College">
-        </table>
-        <table tableName="college_course" domainObjectName="CollegeCourse">
-        </table>
-        <table tableName="counselor" domainObjectName="Counselor">
-        </table>
-        <table tableName="course" domainObjectName="Course">
-        </table>
-        <table tableName="student" domainObjectName="Student">
-        </table>
-        <table tableName="student_course" domainObjectName="StudentCourse">
-        </table>
-        <table tableName="studentanalysis" domainObjectName="StudentAnalysis">
-        </table>
-        <table tableName="user" domainObjectName="User">
-        </table>
-
-
+        <!--<table tableName="admin" domainObjectName="Administrator">-->
+        <!--</table>-->
+        <!--<table tableName="class" domainObjectName="Class">-->
+        <!--</table>-->
+        <!--<table tableName="college" domainObjectName="College">-->
+        <!--</table>-->
+        <!--<table tableName="college_course" domainObjectName="CollegeCourse">-->
+        <!--</table>-->
+        <!--<table tableName="counselor" domainObjectName="Counselor">-->
+        <!--</table>-->
+        <!--<table tableName="course" domainObjectName="Course">-->
+        <!--</table>-->
+        <!--<table tableName="student" domainObjectName="Student">-->
+        <!--</table>-->
+        <!--<table tableName="student_course" domainObjectName="StudentCourse">-->
+        <!--</table>-->
+        <!--<table tableName="studentanalysis" domainObjectName="StudentAnalysis">-->
+        <!--</table>-->
+        <!--<table tableName="user" domainObjectName="User">-->
+        <!--</table>-->
+        <table tableName="collegeanalysis" domainObjectName="CollegeAnalysis"></table>
     </context>
 </generatorConfiguration>

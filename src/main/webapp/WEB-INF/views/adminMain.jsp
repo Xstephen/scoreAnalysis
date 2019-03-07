@@ -87,7 +87,7 @@
                 <!-- Topbar Search -->
                 <form class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 w-100">
                     <div class="input-group justify-content-end">
-                        <label>${sessionScope.counselor.counselorname},您好！</label>
+                        <label>${sessionScope.administrator.adminname},您好！</label>
                     </div>
                 </form>
 

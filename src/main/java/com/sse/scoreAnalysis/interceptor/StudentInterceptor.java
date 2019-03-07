@@ -19,7 +19,7 @@ public class StudentInterceptor implements HandlerInterceptor {
         }else {
             request.setAttribute("info","您没有权限访问该路径！");
             //response.sendRedirect(request.getContextPath()+"/login");
-            request.getRequestDispatcher("//main").forward(request, response);
+            request.getRequestDispatcher("/main").forward(request, response);
             return false;
         }
     }
