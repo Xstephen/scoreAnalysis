@@ -669,7 +669,7 @@
                 "title": "点击查看详情"
             });
             ascendListTable.draw();
-            $('#ascendList tbody').on('click', 'tr', function () {
+            $('#ascendList tbody').off("click").on('click', 'tr', function () {
                 var studentid = $(this).find('td:first').text();
                 var studentname = $(this).find('td:first').next().text();
                 var basepath = $('base').attr('href');
@@ -775,7 +775,7 @@
                             "title": "点击查看详情"
                         });
                         ascendListTable.draw();
-                        $('#ascendList tbody').on('click', 'tr', function () {
+                        $('#ascendList tbody').off("click").on('click', 'tr', function () {
                             var studentid = $(this).find('td:first').text();
                             var studentname = $(this).find('td:first').next().text();
                             var basepath = $('base').attr('href');
@@ -897,7 +897,7 @@
                 "title": "点击查看详情"
             });
             ascendListTable.draw();
-            $('#ascendList tbody').on('click', 'tr', function () {
+            $('#ascendList tbody').off("click").on('click', 'tr', function () {
                 var studentid = $(this).find('td:first').text();
                 var studentname = $(this).find('td:first').next().text();
                 var basepath = $('base').attr('href');
@@ -1006,7 +1006,7 @@
                             "title": "点击查看详情"
                         });
                         ascendListTable.draw();
-                        $('#ascendList tbody').on('click', 'tr', function () {
+                        $('#ascendList tbody').off("click").on('click', 'tr', function () {
                             var studentid = $(this).find('td:first').text();
                             var studentname = $(this).find('td:first').next().text();
                             var basepath = $('base').attr('href');
@@ -1115,6 +1115,7 @@
             scrollY: "200px",
             scrollCollapse: true,
             order: [[2, "desc"]],
+            destroy:true,
             //select: true,
             language: {
                 "sProcessing": "处理中...",
@@ -1306,19 +1307,19 @@
                 }
             }
         });
-        $('#studentList tbody').on('click', 'tr', function () {
+        $('#studentList tbody').off("click").on('click', 'tr', function () {
             var studentid = $(this).find('td:first').text();
             var studentname = $(this).find('td:first').next().text();
             var basepath = $('base').attr('href');
             ajaxShowCharts(studentid, studentname, basepath, studentList.length);
         });
-        $('#attentionList tbody').on('click', 'tr', function () {
+        $('#attentionList tbody').off("click").on('click', 'tr', function () {
             var studentid = $(this).find('td:first').text();
             var studentname = $(this).find('td:first').next().text();
             var basepath = $('base').attr('href');
             ajaxShowCharts(studentid, studentname, basepath, studentList.length);
         });
-        $('#ascendList tbody').on('click', 'tr', function () {
+        $('#ascendList tbody').off("click").on('click', 'tr', function () {
             var studentid = $(this).find('td:first').text();
             var studentname = $(this).find('td:first').next().text();
             var basepath = $('base').attr('href');

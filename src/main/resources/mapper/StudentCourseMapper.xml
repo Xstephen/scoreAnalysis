@@ -217,6 +217,15 @@
             order by ${orderByClause}
         </if>
     </select>
+    <select id="selectStudentCourseByCourseInGrade" resultMap="WithStudentMap">
+        select
+        sc.collegeId, sc.majorId, sc.courseId, sc.year, sc.term, sc.studentId, sc.score, sc.studentRank, sc.flag, sc.great,sc.first,sc.pass,sc.grade,
+        s.studentId, s.studentName, s.studentRank, s.failureSum, s.weightScore,s.studentAscend,s.classId
+        from student_course sc
+        left join student s on sc.studentId=s.studentId
+        where sc.collegeId=#{collegeid} and sc.majorId=#{majorid} and sc.courseId=#{courseid} and sc.year=#{year} and sc.term=#{term}
+        and s.grade=#{grade} and sc.first=1
+    </select>
     <select id="selectYearTermByExample" parameterType="com.sse.scoreAnalysis.model.StudentCourseExample"
             resultMap="BaseResultMap">
         select distinct
@@ -228,6 +237,15 @@
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
+    </select>
+    <select id="selectYearTermInStudents" resultMap="BaseResultMap">
+        select distinct
+        <include refid="YearTermList"/>
+        from student_course where studentId in(
+        select studentId from student s
+        left join class c on s.classId=c.classId
+        where c.collegeId=#{collegeid} and c.majorId=#{majorid} and s.grade=#{grade})
+        and year>#{grade};
     </select>
     <select id="selectYearByExample" parameterType="com.sse.scoreAnalysis.model.StudentCourseExample"
             resultMap="BaseResultMap">

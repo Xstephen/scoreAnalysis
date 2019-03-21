@@ -222,6 +222,24 @@
                             rtl: false,
                         });
                     }
+                },
+                error:function(){
+                    $('#subbtn').attr("disabled",false);
+                    changeImage();
+                    $.Toast("服务器忙","请重试！", "warning", {
+                        stack: true,
+                        has_icon: true,
+                        has_close_btn: false,
+                        fullscreen: false,
+                        width: 400,
+                        spacing: 20,
+                        timeout: 3000,
+                        border_radius: 8,
+                        sticky: false,
+                        position_class: "toast-top-right",
+                        has_progress: false,
+                        rtl: false
+                    });
                 }
             });
         });

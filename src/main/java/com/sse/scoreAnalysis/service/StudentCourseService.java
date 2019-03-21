@@ -15,4 +15,9 @@ public interface StudentCourseService {
     List<StudentCourse> getStudentCourseByCourse(String collegeid,String majorid,String courseid,String year,Integer term,List<String> studentIdList);
 
     List<StudentCourse> getReexamineInfo(CollegeCourseKey collegeCourseKey, String studentId);
+
+    List<StudentCourse> getYearTermInStudents(String collegeId, String majorId, String grade);
+
+    List<StudentCourse> getStudentCourseByCourseInGrade(String collegeid, String majorid, String courseid, String year, Integer term, String grade);
+
 }

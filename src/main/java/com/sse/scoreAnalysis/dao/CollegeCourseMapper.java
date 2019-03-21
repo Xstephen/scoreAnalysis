@@ -4,6 +4,7 @@ import com.sse.scoreAnalysis.model.College;
 import com.sse.scoreAnalysis.model.CollegeCourse;
 import com.sse.scoreAnalysis.model.CollegeCourseExample;
 import com.sse.scoreAnalysis.model.CollegeCourseKey;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +27,13 @@ public interface CollegeCourseMapper {
 
     CollegeCourse selectByPrimaryKeyWithCourse(CollegeCourseKey key);
 
-    List<CollegeCourse> selectCourseInfoInStudentIdList(@Param("loginYear")String loginYear,@Param("studentIdList") List<String> studentIdList);
+    List<CollegeCourse> selectCourseInfoInStudentIdList(@Param("loginYear") String loginYear, @Param("studentIdList") List<String> studentIdList);
 
-    List<Map<CollegeCourseKey,Object>> selectCourseInfoInStudentIdListWithNotPass(@Param("loginYear")String loginYear, @Param("studentIdList") List<String> studentIdList);
+    List<Map<CollegeCourseKey, Object>> selectCourseInfoInStudentIdListWithNotPass(@Param("loginYear") String loginYear, @Param("studentIdList") List<String> studentIdList);
+
+    List<CollegeCourse> selectCollegeCourseInMajor(@Param("collegeid") String collegeId, @Param("majorid") String majorId, @Param("year") String year, @Param("condition") String condition);
+
+    List<CollegeCourse> selectCollegeCourseInGrade(@Param("collegeid") String collegeId, @Param("majorid") String majorId, @Param("grade") String grade, @Param("year") String year, @Param("term") String term, @Param("condition") String condition);
 
     int updateByExampleSelective(@Param("record") CollegeCourse record, @Param("example") CollegeCourseExample example);
 
@@ -37,4 +42,5 @@ public interface CollegeCourseMapper {
     int updateByPrimaryKeySelective(CollegeCourse record);
 
     int updateByPrimaryKey(CollegeCourse record);
+
 }

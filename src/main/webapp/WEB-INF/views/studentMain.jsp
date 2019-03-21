@@ -325,9 +325,8 @@
                 }
             ]
         };
-
         studentRankChart.setOption(option);
-        window.onresize = function(){
+        window.onresize = function () {
             studentRankChart.resize();
             //myChart1.resize();    //若有多个图表变动，可多写
 

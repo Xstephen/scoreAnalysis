@@ -13,4 +13,11 @@ public interface CollegeCourseService {
     List<CollegeCourse> getCollegeCourseInStudentIdList(String loginYear,List<String> studentIdList);
 
     JSONArray getNotPassMap(String loginYear, List<String> studentIdList);
+
+    List<CollegeCourse> getCollegeCourseInMajor(String collegeId, String majorId, String year,String condition);
+
+    List<CollegeCourse> getCollegeCourseCompare(String collegeId, String majorId, String courseId);
+
+    List<CollegeCourse> getCollegeCourseInGrade(String collegeId, String majorId, String grade,String year,String term, String condition);
+
 }

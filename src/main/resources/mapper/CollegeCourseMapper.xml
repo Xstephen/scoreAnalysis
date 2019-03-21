@@ -136,7 +136,10 @@
         </foreach>)
     </select>
     <select id="selectCourseInfoInStudentIdListWithNotPass" resultType="java.util.HashMap">
-        select c.collegeId as collegeid,c.majorId as majorid,c.courseId as courseid,c.year,c.term,c.maxScore as maxscore,c.minScore as minscore,c.mean,c.median,c.studentNum as studentnum,c.failureNum as failurenum,c.courseName as coursename,c.courseType as coursetype,c.credit,c.classHour as classhour,IFNULL(b.notPass,0)as notpass
+        select c.collegeId as collegeid,c.majorId as majorid,c.courseId as courseid,c.year,c.term,c.maxScore as
+        maxscore,c.minScore as minscore,c.mean,c.median,c.studentNum as studentnum,c.failureNum as
+        failurenum,c.courseName as coursename,c.courseType as coursetype,c.credit,c.classHour as
+        classhour,IFNULL(b.notPass,0)as notpass
         from (select
         cc.collegeId,cc.majorId,cc.courseId,cc.year,cc.term,cc.maxScore,cc.minScore,cc.mean,cc.median,cc.studentNum,cc.failureNum,
         co.courseName,co.courseType,co.credit,co.classHour
@@ -178,6 +181,45 @@
         </foreach>
         group by a.collegeId,a.majorId,a.courseId,a.term,a.year) b
         on c.collegeId=b.collegeId and c.majorId=b.majorId and c.courseId=b.courseId and c.year=b.year and c.term=b.term
+    </select>
+    <select id="selectCollegeCourseInMajor" resultMap="ResultMapWithCourse">
+        select s.collegeId, s.majorId, s.courseId, c.courseId, c.courseName, c.courseType, c.credit, c.classHour
+        from
+        (select distinct cc.collegeId,cc.majorId,cc.courseId
+        from college_course cc
+        where cc.collegeId=#{collegeid} and cc.majorId=#{majorid} and cc.year>=#{year} and cc.studentNum>10) s
+        left join course c on s.courseId=c.courseId
+        <where>
+            <if test="condition!=null and condition !=''">
+                and (s.courseId like CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%') or c.courseName
+                like
+                CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%'))
+            </if>
+        </where>
+    </select>
+    <select id="selectCollegeCourseInGrade" resultMap="ResultMapWithCourse">
+        select distinct s.collegeId, s.majorId, s.courseId,s.year,s.term, c.courseName, c.courseType, c.credit,
+        c.classHour
+        from
+        (select distinct sc.collegeId,sc.majorId,sc.courseId,sc.year,sc.term
+        from student_course sc
+        where sc.collegeId=#{collegeid} and sc.majorId=#{majorid} and sc.grade=#{grade} and sc.studentId>=#{grade} and
+        sc.first=1
+        <if test="year!=null">
+            and sc.year=#{year}
+        </if>
+        <if test="term!=null">
+            and sc.term=#{term}
+        </if>
+        ) s
+        left join course c on s.courseId=c.courseId
+        <where>
+            <if test="condition!=null and condition !=''">
+                and (s.courseId like CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%') or c.courseName
+                like
+                CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%'))
+            </if>
+        </where>
     </select>
     <select id="selectByPrimaryKey" parameterType="com.sse.scoreAnalysis.model.CollegeCourseKey"
             resultMap="BaseResultMap">

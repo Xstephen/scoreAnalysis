@@ -419,7 +419,7 @@
         var basepath = $('base').attr('href');
         $.ajax({
             url: url,
-            async: false,
+            async: true,
             cache: true,
             type: "post",
             dataType: 'json',
@@ -448,7 +448,7 @@
                     });
                     studentCourseTable.draw();
                     $('[data-toggle="tooltip"]').tooltip();
-                    $('#studentCourseTable tbody').on('click', 'tr', function () {
+                    $('#studentCourseTable tbody').off('click').on('click', 'tr', function () {
                         var rowIndex = studentCourseTable.row(this).index();
                         var studentCourseInfo = studentCourseList[rowIndex];
                         var modal = $('#courseDetailModal');
@@ -464,7 +464,7 @@
                             "title": "点击查看详情"
                         });
                         notPassTable.draw();
-                        $('#notPassTable tbody').on('click', 'tr', function () {
+                        $('#notPassTable tbody').off('click').on('click', 'tr', function () {
                             var rowIndex = notPassTable.row(this).index();
                             var studentCourseInfo = notPassList[rowIndex];
                             var modal = $('#courseDetailModal');
@@ -582,6 +582,7 @@
                 },
             ]
         };
+        chart.clear();
         chart.setOption(option);
         chart.off('click');
         chart.on('click', function (params) {
@@ -600,7 +601,7 @@
     }
 
     function rowSelectEvent(table, collegeCourseList, url) {
-        $('#collegeCourseTable tbody').on('click', 'tr', function () {
+        $('#collegeCourseTable tbody').off('click').on('click', 'tr', function () {
             var rowIndex = table.row(this).index();
             var collegeCourseInfo = collegeCourseList[rowIndex];
             ajaxShowCourseDetail(url, collegeCourseInfo);
@@ -760,7 +761,7 @@
         });
         $.ajax({
             url: basepath + 'counselor/allCourseInfo',
-            async: false,
+            async: true,
             cache: true,
             type: "post",
             dataType: 'json',

@@ -31,6 +31,10 @@ public interface StudentCourseMapper {
 
     List<StudentCourse> selectYearByExample(StudentCourseExample example);
 
+    List<StudentCourse> selectYearTermInStudents(@Param("collegeid") String collegeId, @Param("majorid") String majorId, @Param("grade") String grade);
+
+    List<StudentCourse> selectStudentCourseByCourseInGrade(@Param("collegeid") String collegeid, @Param("majorid")String majorid, @Param("courseid")String courseid, @Param("year")String year, @Param("term")Integer term, @Param("grade")String grade);
+
     int updateByExampleSelective(@Param("record") StudentCourse record, @Param("example") StudentCourseExample example);
 
     int updateByExample(@Param("record") StudentCourse record, @Param("example") StudentCourseExample example);
@@ -38,4 +42,5 @@ public interface StudentCourseMapper {
     int updateByPrimaryKeySelective(StudentCourse record);
 
     int updateByPrimaryKey(StudentCourse record);
+
 }

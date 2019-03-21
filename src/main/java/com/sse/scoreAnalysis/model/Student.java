@@ -21,6 +21,9 @@ public class Student {
 
     private String classid;
 
+    private College college;
+
+
     public String getStudentid() {
         return studentid;
     }
@@ -99,5 +102,13 @@ public class Student {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public College getCollege() {
+        return college;
+    }
+
+    public void setCollege(College college) {
+        this.college = college;
     }
 }

@@ -85,4 +85,37 @@ public class StudentServiceImpl implements StudentService {
         int count = (int) studentMapper.countByExample(studentExample);
         return count;
     }
+
+    @Override
+    public List<Student> getStudentInfoInCollege(String collegeid, String year,String condition) {
+        String majorid=null;
+        String grade=null;
+        return studentMapper.selectJoinByCondition(collegeid, majorid,grade,year,condition);
+    }
+
+    @Override
+    public List<Student> getStudentInfoInMajor(String collegeId, String majorId, String year,String condition) {
+        String grade=null;
+        return studentMapper.selectJoinByCondition(collegeId, majorId,grade,year,condition);
+    }
+
+    @Override
+    public List<Student> getStudentInfoInGrade(String collegeId, String majorId, String grade, String year,String condition) {
+        return studentMapper.selectJoinByCondition(collegeId, majorId,grade,year,condition);
+    }
+
+    @Override
+    public List<Student> getStudentHaveFail(String collegeId, String majorId, String grade) {
+        return studentMapper.selectJoinByConditionWithFail(collegeId, majorId,grade);
+    }
+
+    @Override
+    public List<Student> getStudentAsc(String collegeId, String majorId, String grade) {
+        return studentMapper.selectJoinByConditionAsc(collegeId, majorId,grade);
+    }
+
+    @Override
+    public List<Student> getStudentInfoInSchool(String year, String searchCondition) {
+        return studentMapper.selectJoinByCondition(null,null,null,year,searchCondition);
+    }
 }

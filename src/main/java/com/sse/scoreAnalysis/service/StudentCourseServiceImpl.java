@@ -69,4 +69,14 @@ public class StudentCourseServiceImpl implements StudentCourseService{
         criteria.andFirstEqualTo(0);
         return studentCourseMapper.selectByExample(studentCourseExample);
     }
+
+    @Override
+    public List<StudentCourse> getYearTermInStudents(String collegeId, String majorId, String grade) {
+        return studentCourseMapper.selectYearTermInStudents(collegeId,majorId,grade);
+    }
+
+    @Override
+    public List<StudentCourse> getStudentCourseByCourseInGrade(String collegeid, String majorid, String courseid, String year, Integer term, String grade) {
+        return studentCourseMapper.selectStudentCourseByCourseInGrade(collegeid, majorid, courseid, year, term, grade);
+    }
 }

@@ -13,6 +13,24 @@
         <result column="studentAscend" jdbcType="INTEGER" property="studentascend"/>
         <result column="classId" jdbcType="VARCHAR" property="classid"/>
     </resultMap>
+    <resultMap id="ResultMapWithCollege" type="com.sse.scoreAnalysis.model.Student">
+        <id column="studentId" jdbcType="VARCHAR" property="studentid"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="studentName" jdbcType="VARCHAR" property="studentname"/>
+        <result column="loginYear" jdbcType="CHAR" property="loginyear"/>
+        <result column="grade" jdbcType="CHAR" property="grade"/>
+        <result column="studentRank" jdbcType="INTEGER" property="studentrank"/>
+        <result column="failureSum" jdbcType="INTEGER" property="failuresum"/>
+        <result column="weightScore" jdbcType="DOUBLE" property="weightscore"/>
+        <result column="studentAscend" jdbcType="INTEGER" property="studentascend"/>
+        <result column="classId" jdbcType="VARCHAR" property="classid"/>
+        <association property="college" javaType="com.sse.scoreAnalysis.model.College">
+            <id column="collegeId" jdbcType="VARCHAR" property="collegeid" />
+            <id column="majorId" jdbcType="VARCHAR" property="majorid" />
+            <result column="collegeName" jdbcType="VARCHAR" property="collegename" />
+            <result column="majorName" jdbcType="VARCHAR" property="majorname" />
+        </association>
+    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -76,6 +94,66 @@
     <sql id="Base_Column_List">
 studentId, password, studentName, loginYear, grade, studentRank, failureSum, weightScore, studentAscend, classId
     </sql>
+    <select id="selectJoinByCondition" resultMap="ResultMapWithCollege">
+        select
+        s.studentId,s.studentName,s.loginYear,s.grade,s.studentRank,s.failureSum,s.weightScore,s.studentAscend,
+        c.classId,c.grade,c.collegeId,co.collegeName,c.majorId,co.majorName,c.counselorId
+        from student s
+        left join class c on s.classId=c.classId
+        left join college co on c.collegeId=co.collegeId and c.majorId=co.majorId
+        <where>
+            <trim prefix="(" prefixOverrides="and" suffix=")">
+                <if test="collegeid!=null">
+                    c.collegeId=#{collegeid,javaType=String,jdbcType=VARCHAR}
+                </if>
+                <if test="majorid!=null">
+                    and c.majorId=#{majorid,javaType=String,jdbcType=VARCHAR}
+                </if>
+                <if test="grade!=null">
+                    and s.grade=#{grade,javaType=String,jdbcType=VARCHAR}
+                </if>
+                <if test="condition!=null and condition !=''">
+                    and (s.studentId like CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%') or s.studentName
+                    like
+                    CONCAT('%',#{condition,javaType=String,jdbcType=VARCHAR},'%'))
+                </if>
+                and s.grade>=#{year,javaType=String,jdbcType=VARCHAR}
+            </trim>
+        </where>
+        order by s.grade asc,s.weightScore desc
+    </select>
+    <select id="selectJoinByConditionWithFail" resultMap="ResultMapWithCollege">
+        select
+        s.studentId,s.studentName,s.loginYear,s.grade,s.studentRank,s.failureSum,s.weightScore,s.studentAscend,
+        c.classId,c.grade,c.collegeId,c.majorId,c.counselorId
+        from student s
+        left join class c on s.classId=c.classId
+        where c.collegeId=#{collegeid}
+        <if test="majorid!=null and majorid!='0'.toString()">
+            and c.majorId=#{majorid,javaType=String,jdbcType=VARCHAR}
+        </if>
+        <if test="grade!=null and grade!='0'.toString()">
+            and s.grade=#{grade,javaType=String,jdbcType=VARCHAR}
+        </if>
+        and s.failureSum>5
+        order by s.failureSum desc
+    </select>
+    <select id="selectJoinByConditionAsc" resultMap="ResultMapWithCollege">
+        select
+        s.studentId,s.studentName,s.loginYear,s.grade,s.studentRank,s.failureSum,s.weightScore,s.studentAscend,
+        c.classId,c.grade,c.collegeId,c.majorId,c.counselorId
+        from student s
+        left join class c on s.classId=c.classId
+        where c.collegeId=#{collegeid}
+        <if test="majorid!=null and majorid!='0'.toString()">
+            and c.majorId=#{majorid,javaType=String,jdbcType=VARCHAR}
+        </if>
+        <if test="grade!=null and grade!='0'.toString()">
+            and s.grade=#{grade,javaType=String,jdbcType=VARCHAR}
+        </if>
+        and s.studentAscend=1
+        order by s.grade asc,s.weightScore desc
+    </select>
     <select id="selectByExample" parameterType="com.sse.scoreAnalysis.model.StudentExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
