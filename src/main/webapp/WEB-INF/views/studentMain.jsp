@@ -141,7 +141,7 @@
                                                 加权成绩(截至当前学期):${sessionScope.student.weightscore}<br>
                                                 <div class="list-inline">
                                                     不及格次数:${sessionScope.student.failuresum}
-                                                    <a id="detail" class="text-white">查看详情</a>
+                                                    <%--<a id="detail" class="text-white">查看详情</a>--%>
                                                     <br></div>
                                             </div>
                                         </div>

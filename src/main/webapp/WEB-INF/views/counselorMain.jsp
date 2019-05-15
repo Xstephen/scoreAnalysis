@@ -66,8 +66,14 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
-
-
+        <li class="nav-item">
+            <a class="nav-link" href="<%=path%>/counselor/scorePredict">
+                <i class="fas fa-fw fa-book"></i>
+                <span>成绩预测</span>
+            </a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
             <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -186,7 +192,7 @@
                                     <div class="col-lg-4 mb-4">
                                         <div id="attentionListCard" class="card shadow">
                                             <div class="card-header border-0 py-3 form-inline">
-                                                <h6 class="m-0 font-weight-bold">挂科较多学生列表</h6>
+                                                <h6 class="m-0 font-weight-bold">挂科较多学生名单</h6>
                                                 <i class="far fa-question-circle" data-toggle="tooltip"
                                                    data-placement="right"
                                                    title="截至当前学期，挂科次数大于5门的学生列表。"></i>
@@ -1115,7 +1121,7 @@
             scrollY: "200px",
             scrollCollapse: true,
             order: [[2, "desc"]],
-            destroy:true,
+            destroy: true,
             //select: true,
             language: {
                 "sProcessing": "处理中...",

@@ -705,6 +705,7 @@
                 '                                                                    </tr>\n' +
                 '                                                                    </thead>');
         }
+
         courseInMajorListTable = $('#courseInMajorList').DataTable({
             serverSide: true,
             processing: true,//载入数据的时候是否显示载入中
@@ -862,7 +863,7 @@
                     }
                     var option = {
                         title: {
-                            text: coursename + "各年级成绩对比",
+                            text: coursename + "成绩对比",
                             //subtext: '纯属虚构'
                         },
                         tooltip: {
@@ -1509,6 +1510,10 @@
                                 $('#studentCourseDiv').hide();
                                 $('#courseAnalysis').hide();
                                 $('#selectDiv').hide();
+                                $('#scoreAnalysis').tab('show');
+                                $('#studentListDiv').removeClass("col-lg-8");
+                                $('#attentionDiv').remove();
+                                $('#studentListDiv').addClass("col-lg-12");
                                 var aList = selectMap[scale];
                                 var xData = [];
                                 var yData = [];
@@ -1634,6 +1639,10 @@
                     });
                 }
             }
+        });
+        $('#scoreAnalysis').on('shown.bs.tab', function (e) {
+            attentionListTable.draw();
+            ascendListTable.draw();
         });
     });
 </script>

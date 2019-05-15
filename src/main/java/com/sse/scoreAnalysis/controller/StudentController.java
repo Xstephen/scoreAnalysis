@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,13 +97,18 @@ public class StudentController {
     @RequestMapping(value="/courseDetail",method= RequestMethod.POST)
     @ResponseBody
     //这个注解会自动调用相关jar包的api将你要返回的对象自动的转化为JSON字符串后，封装到response中，然后返回给浏览器
-    public Message allAnalysis(CollegeCourseKey collegeCourseKey){
+    public Message getCourseDetail(CollegeCourseKey collegeCourseKey, @RequestParam("studentId") String studentId, @RequestParam("score") Integer score) {
         Message result;
-        CollegeCourse collegeCourse=collegeCourseService.getCollegeCourseByKey(collegeCourseKey);
-        if(collegeCourse!=null){
-            result=Message.success().add("collegeCourse",collegeCourse);
-        }else{
-            result=Message.fail("查询课程详情失败，请重试！");
+        CollegeCourse collegeCourse = collegeCourseService.getCollegeCourseByKey(collegeCourseKey);
+        List<StudentCourse> studentCourseList = new ArrayList<>();
+        if (score < 60) {
+            //第一次小于60 查询重考信息
+            studentCourseList = studentCourseService.getReexamineInfo(collegeCourseKey, studentId);
+        }
+        if (collegeCourse != null) {
+            result = Message.success().add("collegeCourse", collegeCourse).add("reexamineList", studentCourseList);
+        } else {
+            result = Message.fail("查询课程详情失败，请重试！");
         }
         return result;
     }

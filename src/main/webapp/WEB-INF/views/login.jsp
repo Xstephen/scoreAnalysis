@@ -43,7 +43,7 @@
                     <div class="form-label-group">
                         <input class="form-control required" type="password" placeholder="密码（默认为身份证号后6位）"
                                id="password"
-                               name="userPassword" maxlength="15" autocomplete="current-password"/>
+                               name="userPassword" maxlength="20" autocomplete="current-password"/>
                         <label for="password">密码</label>
                     </div>
                 </div>
@@ -158,14 +158,22 @@
                     validators: {
                         notEmpty: {
                             message: '用户名不能为空！'
-                        },
+                        },regexp: {
+                            regexp: /^[0-9]+$/,
+                            message: '用户名只能包含数字'
+                        }
                     }
                 },
                 userPassword: {
                     validators: {
                         notEmpty: {
                             message: '密码不能为空！'
+                        },stringLength: {  //长度限制
+                            min: 6,
+                            max: 20,
+                            message: '密码必须在6到20位之间'
                         },
+
                     }
                 },
                 verifyCode:{

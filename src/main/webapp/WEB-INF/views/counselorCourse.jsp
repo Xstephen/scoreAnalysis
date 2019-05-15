@@ -65,6 +65,14 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link" href="<%=path%>/counselor/scorePredict">
+                <i class="fas fa-fw fa-book"></i>
+                <span>成绩预测</span>
+            </a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
 
         <!-- Sidebar Toggler (Sidebar) -->

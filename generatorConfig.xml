@@ -56,6 +56,7 @@
         <!--</table>-->
         <!--<table tableName="user" domainObjectName="User">-->
         <!--</table>-->
-        <table tableName="collegeanalysis" domainObjectName="CollegeAnalysis"></table>
+        <!--<table tableName="collegeanalysis" domainObjectName="CollegeAnalysis"></table>-->
+        <table tableName="predictScore" domainObjectName="PredictScore"></table>
     </context>
 </generatorConfiguration>

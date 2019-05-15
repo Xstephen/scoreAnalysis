@@ -34,11 +34,14 @@ public class CounselorController {
     @Autowired
     private CollegeCourseService collegeCourseService;
 
+    @Autowired
+    private PredictScoreService predictScoreService;
+
     @RequestMapping("/")
-    public String mainPage(HttpServletRequest request,HttpSession session) {
-        String info= (String) session.getAttribute("info");
-        if(info!=null){
-            request.setAttribute("info",info);
+    public String mainPage(HttpServletRequest request, HttpSession session) {
+        String info = (String) session.getAttribute("info");
+        if (info != null) {
+            request.setAttribute("info", info);
         }
         //查询辅导员基本信息
         User user = (User) session.getAttribute("user");
@@ -80,6 +83,11 @@ public class CounselorController {
     @RequestMapping("/courseAnalysis")
     public String courseAnalysis() {
         return "counselorCourse";
+    }
+
+    @RequestMapping("/scorePredict")
+    public String scorePredict() {
+        return "counselorPredict";
     }
 
     /*
@@ -313,6 +321,42 @@ public class CounselorController {
             result = Message.success().add("studentCourseList", studentCourseList);
         } else {
             result = Message.fail("查询该课程学生信息失败，请重试！");
+        }
+        return result;
+    }
+
+    /*
+    ajax 选择预测可能挂科的学生名单
+    */
+    @RequestMapping(value = "/allPredictStudentList", method = RequestMethod.POST)
+    @ResponseBody
+    public Message getPredictInStudentList(HttpSession session) {
+        Message result;
+        JSONArray studentIdArray = (JSONArray) session.getAttribute("studentIdList");
+        List<String> studentIdList = JSONArray.toList(studentIdArray, new String(), new JsonConfig());
+
+        //查询有预测成绩等于0的学生成绩
+        List<Student> studentList = predictScoreService.getPredictInStudentList(studentIdList);
+        if (studentList.size() > 0) {
+            //查询成功
+            result = Message.success().add("studentList", studentList);
+        } else {
+            result = Message.fail("暂无成绩预测信息！");
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/studentPredictInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Message getPredictInfo(@RequestParam("studentId")String studentId) {
+        Message result;
+        //查询该学生预测成绩
+        List<PredictScore> predictScoreList = predictScoreService.getPredictInfo(studentId);
+        if (predictScoreList.size() > 0) {
+            //查询成功
+            result = Message.success().add("predictScoreList", predictScoreList);
+        } else {
+            result = Message.fail("暂无成绩预测信息！");
         }
         return result;
     }

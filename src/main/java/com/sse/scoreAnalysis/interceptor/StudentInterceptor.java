@@ -15,6 +15,7 @@ public class StudentInterceptor implements HandlerInterceptor {
         HttpSession session=request.getSession();
         User user= (User) session.getAttribute("user");
         if(user!=null&&user.getRole()==2){
+            //学生用户的role为2
             return true;
         }else {
             request.setAttribute("info","您没有权限访问该路径！");
